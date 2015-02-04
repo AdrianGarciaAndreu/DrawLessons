@@ -1,7 +1,12 @@
 package com.draw_lessons.app.canvas;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,12 +17,14 @@ import java.io.FileOutputStream;
 public class saver {
 
     private String path;
-    private Bitmap b;
+    public static Bitmap b;
+    private Context c;
 
-    public saver(Bitmap b) {
+    public saver(Bitmap b,Context c,String name) {
 
-        this.path = Environment.getExternalStorageDirectory().toString() + "/DrawLessons/Prueba.png";
+        this.path = Environment.getExternalStorageDirectory().toString() + "/DrawLessons/"+name+".png";
         this.b = b;
+        this.c = c;
 
     }
 
@@ -28,20 +35,19 @@ public class saver {
             @Override
             public void run() {
 
+                File f = new File(path);
                 try {
-                    File f = new File(path);
                     FileOutputStream fos = new FileOutputStream(f);
-                    b.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    saver.b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                }catch(Exception ex){
+                    ex.printStackTrace();
                 }
-
-
             }
         }).start();
 
-
     }
+
+
 
 
 }

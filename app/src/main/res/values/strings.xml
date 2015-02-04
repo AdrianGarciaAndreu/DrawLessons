@@ -19,6 +19,13 @@
     <string name="clean_dialog">¿Seguro que desea limpiar el lienzo de trabajo?</string>
     <string name="positive_button">¡Seguro!</string>
     <string name="negative_button">¡Todavía no!</string>
+
+
+    <string name="save_title">Guardar imágen</string>
+    <string name="save_toast">Imágen guardada</string>
+    <string name="save_msg">¿Quieres guardar la imágen?, introduzca un nombre.</string>
+    <string name="cancel">Cancelar</string>
+
     <string-array name="drawer_list">
         <item>Lienzo</item>
         <item>Cursos</item>

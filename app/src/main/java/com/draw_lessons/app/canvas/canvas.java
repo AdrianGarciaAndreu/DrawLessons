@@ -439,12 +439,13 @@ public class canvas extends View{
 
 
 
-
-
     public void acceptCompassRadius(){
 
         canvas.compassT3 = true;
         this.onCompassTouch(null);
+
+        activity_draw.i1.setVisible(false);
+        activity_draw.i2.setVisible(false);
 
     }
 
@@ -508,14 +509,8 @@ public class canvas extends View{
 
         this.p.setStrokeWidth(SIZE_SMALL);
 
-
-        // Cnv.compassT3=false;
-        // Cnv.compassT2=false;
-        // Cnv.compassT1=false;
-
-        // Cnv.compasLayer=false;
-        // Cnv.compassBmp = null;
-        // this.circleFixed=false;
+        activity_draw.i1.setVisible(false);
+        activity_draw.i2.setVisible(false);
 
         this.invalidate();
 
@@ -570,6 +565,11 @@ public class canvas extends View{
         if(this.drawing==true){
 
             if(canvas.compassT1==true && canvas.compassT2 == true && canvas.compassT3 == true){
+
+                paint.setColor(this.getResources().getColor(R.color.primary_alpha));
+                activity_draw.i1.setVisible(true);
+                activity_draw.i2.setVisible(true);
+
                 float r =(float)this.getDistance(this.compassX1,this.compassY1,this.compassX2,this.compassY2);
                 if(!circleFixed){
                     tmpCnv.drawCircle(this.compassX1,this.compassY1,r,paint);
@@ -587,6 +587,7 @@ public class canvas extends View{
 
                     this.cnv.clipPath(ePa, Region.Op.REPLACE);
                     this.cnv.clipPath(iPa, Region.Op.DIFFERENCE);
+
 
                     this.invalidate();
                     switch(event.getAction()){
@@ -879,6 +880,13 @@ public class canvas extends View{
      * re-establecer la imagen a su estado por defecto
      */
     public void Clean() {
+        tools.useHand(this);
+            activity_draw da = (activity_draw)this.getContext();
+            da.resetToolbar();
+
+        activity_draw.i1.setVisible(false);
+        activity_draw.i2.setVisible(false);
+
         this.cnv.drawColor(0xFFFFFFFF);
         this.Trazos = new ArrayList<Path>();
         this.invalidate();

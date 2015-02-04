@@ -1,6 +1,8 @@
 package com.draw_lessons.app.canvas;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -18,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -44,13 +47,13 @@ public class activity_draw extends ActionBarActivity {
     private int doBack = 1;
 
     private String appPath = Environment.getExternalStorageDirectory().toString() + "/DrawLessons";
+    public EditText et1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_draw);
-
-
 
         cnvDrawerListItems = getResources().getStringArray(R.array.drawer_list);
         cnvDrawerList = (ListView) findViewById(android.R.id.list);
@@ -111,6 +114,13 @@ public class activity_draw extends ActionBarActivity {
 
         this.items = new MenuItem[6];
         this.prepareFolders();
+
+        this.et1 = new EditText(this);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        this.et1.setLayoutParams(lp);
 
     }
 
@@ -242,6 +252,22 @@ public class activity_draw extends ActionBarActivity {
 
 
     /**
+     * oculta todas las herramientas a excepción del Lápiz
+     */
+    public void resetToolbar(){
+        for (int i = 0; i < this.items.length; i++) {
+            if (this.items[i] != null) {
+                if (this.items[i].getItemId() != 0) {
+                    this.items[i].setVisible(false);
+                }else{
+                    this.items[i].setVisible(true);
+                    this.ClickedID = i;
+                }
+            }
+        }
+    }
+
+    /**
      * Oculta todos los elementos del menu
      * menos el indicado por parametro
      *
@@ -321,6 +347,8 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
+
+
     /**
      * Metodo para añadir acciones de control a los items
      * de los Menus de la actionBar
@@ -329,24 +357,28 @@ public class activity_draw extends ActionBarActivity {
      */
     public void addMenuItems(MenuItem item) {
         int id = item.getItemId();
-
+        //Goma de borrar
         if (id == 2) {
             tools.useEraser(this.canvas);
             this.ClickedID = id;
         }
+        //regla recta
         if (id == 1) {
             tools.useRuler(this.canvas);
             this.ClickedID = id;
         }
+        //Mano alzada
         if (id == 0) {
             tools.useHand(this.canvas);
             this.ClickedID = id;
         }
+        //Compás
         if (id == 4) {
             tools.useCompass(this.canvas);
             this.ClickedID = id;
         }
 
+        // id's de Deshacer,Limpiar, Aceptar, Rechazar, Guardar
         if (id != 3
                 && id != 5
                 && id != 6
@@ -370,9 +402,11 @@ public class activity_draw extends ActionBarActivity {
 
 
         if (id == 5) {
-            saver s = new saver(canvas.getBitmapt());
-            s.Save();
-            Toast.makeText(getBaseContext(), "Saved Image", Toast.LENGTH_SHORT).show();
+
+            //saver s = new saver(canvas.getBitmapt(),getBaseContext());
+            //s.Save();
+            this.SaveBMP();
+
         }
 
 
@@ -407,6 +441,40 @@ public class activity_draw extends ActionBarActivity {
             }
         }
 
+    }
+
+
+    /**
+     * Crea un dialogo para guardar
+     * una imagen
+     */
+    public void SaveBMP(){
+
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+
+        b.setMessage(R.string.save_msg);
+        b.setCancelable(true);
+
+        b.setPositiveButton(R.string.save_draw, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saver s = new saver(canvas.getBitmapt(),getBaseContext(),et1.getText().toString());
+                s.Save();
+                Toast.makeText(getBaseContext(),R.string.save_toast,Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        b.setNegativeButton(R.string.cancel, null);
+
+
+        b.setTitle(R.string.save_title);
+        b.setIcon(this.getResources().getDrawable(R.drawable.save));
+
+        b.setView(et1);
+
+        AlertDialog ad = b.create();
+        ad.show();
     }
 
 
