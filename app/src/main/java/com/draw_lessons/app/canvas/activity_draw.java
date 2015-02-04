@@ -30,7 +30,7 @@ import java.io.File;
 public class activity_draw extends ActionBarActivity {
 
     private LinearLayout l1;
-    private cnv canvas;
+    private canvas canvas;
     private MenuItem items[];
     private int AppColor = 0x5500AAEE; //color básico de la aplicacion
 
@@ -156,7 +156,7 @@ public class activity_draw extends ActionBarActivity {
      *
      * @param c
      */
-    public void getVersion(cnv c) {
+    public void getVersion(canvas c) {
         int v = Integer.valueOf(Build.VERSION.SDK_INT);
         if (v >= 17) {
             //si la version de android es inferior a el nivel de API 17, se reduce la calidad
@@ -181,7 +181,7 @@ public class activity_draw extends ActionBarActivity {
         this.l1 = (LinearLayout) this.findViewById(R.id.LinearLCnv1);
 
 
-        this.canvas = new cnv(this);
+        this.canvas = new canvas(this);
 
         this.canvas.setResX(x);
         this.canvas.setResY(y);

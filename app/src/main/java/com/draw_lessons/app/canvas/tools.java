@@ -1,5 +1,6 @@
 package com.draw_lessons.app.canvas;
 
+import android.graphics.Canvas;
 
 /**
  * Created by Adrian on 30/01/2015.
@@ -15,22 +16,27 @@ public class tools {
      * Método para elegir la herramienta
      * de la regla
      */
-    public static void useRuler(cnv c) {
+    public static void useRuler(canvas c) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                cnv.Compass = false;
-                cnv.HandMade = false;
-                cnv.Eraser = false;
-                cnv.Ruler = true;
+                canvas.Compass = false;
+                canvas.HandMade = false;
+                canvas.Eraser = false;
+                canvas.Ruler = true;
 
-                cnv.compasLayer = false;
-                cnv.compassBmp = null;
-                cnv.compassT1 = false;
-                cnv.compassT2 = false;
+                canvas.compasLayer = false;
+                canvas.compassBmp = null;
+                canvas.compassT1 = false;
+                canvas.compassT2 = false;
+                canvas.compassT3 = false;
+                canvas.circleFixed = false;
+                canvas.drawing = true;
+                canvas.cnv = new Canvas(canvas.bmp);
 
-                cnv.p.setColor(0xFF000000);
-                cnv.p.setStrokeWidth(cnv.SIZE_SMALL);
+
+                canvas.p.setColor(0xFF000000);
+                canvas.p.setStrokeWidth(canvas.SIZE_SMALL);
 
 
             }
@@ -43,23 +49,25 @@ public class tools {
      * Método para elegir la herramienta
      * del compas
      */
-    public static void useCompass(cnv c) {
+    public static void useCompass(canvas c) {
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                cnv.Ruler = false;
-                cnv.HandMade = false;
-                cnv.Compass = true;
-                cnv.Eraser = false;
+                canvas.Ruler = false;
+                canvas.HandMade = false;
+                canvas.Compass = true;
+                canvas.Eraser = false;
 
-                cnv.rulerLayer = false;
-                cnv.rulerBmp = null;
-                cnv.rulerT1 = false;
-                cnv.rulerT2 = false;
+                canvas.rulerLayer = false;
+                canvas.rulerBmp = null;
+                canvas.rulerT1 = false;
+                canvas.rulerT2 = false;
+                canvas.accepted = false;
 
-                cnv.p.setColor(0xFF000000);
-                cnv.p.setStrokeWidth(cnv.SIZE_SMALL);
+
+                canvas.p.setColor(0xFF000000);
+                canvas.p.setStrokeWidth(canvas.SIZE_SMALL);
 
             }
         }).start();
@@ -73,28 +81,33 @@ public class tools {
      * Método para elegir la herramienta
      * de Mano alzada
      */
-    public static void useHand(cnv c) {
+    public static void useHand(canvas c) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                cnv.Ruler = false;
-                cnv.HandMade = true;
-                cnv.Compass = false;
-                cnv.Eraser = false;
+                canvas.Ruler = false;
+                canvas.HandMade = true;
+                canvas.Compass = false;
+                canvas.Eraser = false;
 
-                cnv.compasLayer = false;
-                cnv.compassBmp = null;
-                cnv.compassT1 = false;
-                cnv.compassT2 = false;
+                canvas.compasLayer = false;
+                canvas.compassBmp = null;
+                canvas.compassT1 = false;
+                canvas.compassT2 = false;
+                canvas.compassT3 = false;
+                canvas.circleFixed = false;
+                canvas.drawing = true;
+                canvas.cnv = new Canvas(canvas.bmp);
 
-                cnv.rulerLayer = false;
-                cnv.rulerBmp = null;
-                cnv.rulerT1 = false;
-                cnv.rulerT2 = false;
+                canvas.rulerLayer = false;
+                canvas.rulerBmp = null;
+                canvas.rulerT1 = false;
+                canvas.rulerT2 = false;
+                canvas.accepted = false;
 
-                cnv.p.setColor(0xFF000000);
-                cnv.p.setStrokeWidth(cnv.SIZE_SMALL);
+                canvas.p.setColor(0xFF000000);
+                canvas.p.setStrokeWidth(canvas.SIZE_SMALL);
             }
         }).start();
 
@@ -106,29 +119,36 @@ public class tools {
      * Método para elegir la herramienta
      * de Goma de borrar
      */
-    public static void useEraser(cnv c) {
+    public static void useEraser(canvas c) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                cnv.Ruler = false;
-                cnv.HandMade = false;
-                cnv.Compass = false;
-                cnv.Eraser = true;
+                canvas.Ruler = false;
+                canvas.HandMade = false;
+                canvas.Compass = false;
+                canvas.Eraser = true;
 
 
-                cnv.compasLayer = false;
-                cnv.compassBmp = null;
-                cnv.compassT1 = false;
-                cnv.compassT2 = false;
+                canvas.compasLayer = false;
+                canvas.compassBmp = null;
+                canvas.compassT1 = false;
+                canvas.compassT2 = false;
+                canvas.compassT3 = false;
+                canvas.circleFixed = false;
+                canvas.drawing = true;
+                canvas.cnv = new Canvas(canvas.bmp);
 
-                cnv.rulerLayer = false;
-                cnv.rulerBmp = null;
-                cnv.rulerT1 = false;
-                cnv.rulerT2 = false;
+                canvas.rulerLayer = false;
+                canvas.rulerBmp = null;
+                canvas.rulerT1 = false;
+                canvas.rulerT2 = false;
+                canvas.accepted = false;
 
-                cnv.p.setColor(0xFFFFFFFF);
-                cnv.p.setStrokeWidth(cnv.SIZE_SMALL);
+                canvas.cnv = new Canvas(canvas.bmp);
+
+                canvas.p.setColor(0xFFFFFFFF);
+                canvas.p.setStrokeWidth(canvas.SIZE_SMALL);
             }
         }).start();
 

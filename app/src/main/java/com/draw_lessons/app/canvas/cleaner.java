@@ -32,14 +32,14 @@ public class cleaner {
     }
 
 
-    private cnv ca;
+    private canvas ca;
     private Context c;
 
     /**
      * Constructor para
      * limpiar el lienzo del canvas
      */
-    public cleaner(Context c, cnv ca) {
+    public cleaner(Context c, canvas ca) {
         this.c = c;
         this.ca = ca;
     }

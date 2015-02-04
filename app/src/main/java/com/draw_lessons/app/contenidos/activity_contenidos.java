@@ -38,7 +38,7 @@ public class activity_contenidos extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_draw_lessons_launcher);
+        setContentView(R.layout.activity_contenidos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
