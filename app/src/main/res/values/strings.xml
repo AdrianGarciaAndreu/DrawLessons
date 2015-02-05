@@ -11,20 +11,40 @@
     <string name="drawer_open">Drawer Opened</string>
     <string name="drawer_close">Drawer Closed</string>
     <string name="save_draw">Guardar</string>
-    <string name="ruler">R.Recta</string>
-    <string name="compass">Compás</string>
-    <string name="hand">Mano alzada</string>
-    <string name="eraser">Limpiar</string>
     <string name="title_activity_activity_draw">activity_draw</string>
     <string name="clean_dialog">¿Seguro que desea limpiar el lienzo de trabajo?</string>
     <string name="positive_button">¡Seguro!</string>
     <string name="negative_button">¡Todavía no!</string>
+
+    <!-- Herramientas -->
+    <string name="hand_made">Mano alzada</string>
+    <string name="ruler">Regla recta</string>
+    <string name="compass">Compás</string>
+    <string name="eraser">Borrado</string>
+    <string name="accept">Aceptar</string>
+    <string name="dismiss">Rechazar</string>
+    <string name="clean">Limpiar</string>
+    <string name="save">Guardar</string>
+    <string name="undo">Deshacer</string>
+    <string name="space">      </string>
+
 
 
     <string name="save_title">Guardar imágen</string>
     <string name="save_toast">Imágen guardada</string>
     <string name="save_msg">¿Quieres guardar la imágen?, introduzca un nombre.</string>
     <string name="cancel">Cancelar</string>
+
+    <string name="exit_title">Salir</string>
+    <string name="exit_msg">"¿Desea salir del lienzo?"</string>
+    <string name="exit_accept">"Salir"</string>
+    <string name="exit_neutral">"Guardar y salir"</string>
+    <string name="exit_cancel">"Cancelar"</string>
+
+
+
+
+
 
     <string-array name="drawer_list">
         <item>Lienzo</item>

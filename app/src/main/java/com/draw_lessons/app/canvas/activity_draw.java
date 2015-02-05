@@ -34,7 +34,7 @@ import java.io.File;
 
 public class activity_draw extends ActionBarActivity {
 
-    private LinearLayout l1;
+    protected LinearLayout ll1;
     private canvas canvas;
     private MenuItem items[];
 
@@ -113,7 +113,6 @@ public class activity_draw extends ActionBarActivity {
         cnvDrawerToggle.syncState();
 
         this.createDrawer();
-//        this.ToolbarCustom();
 
         this.items = new MenuItem[6];
         this.prepareFolders();
@@ -172,8 +171,6 @@ public class activity_draw extends ActionBarActivity {
     public void getVersion(canvas c) {
         int v = Integer.valueOf(Build.VERSION.SDK_INT);
         if (v >= 17) {
-            //si la version de android es inferior a el nivel de API 17, se reduce la calidad
-            // del dibujo.
             c.ImproveQuality();
         }
 
@@ -191,7 +188,7 @@ public class activity_draw extends ActionBarActivity {
         int x = this.getWindowManager().getDefaultDisplay().getWidth(); //resolucion del ancho de la pantalla
         int y = this.getWindowManager().getDefaultDisplay().getHeight(); // resolucion del alto de la pantalla
 
-        this.l1 = (LinearLayout) this.findViewById(R.id.LinearLCnv1);
+        this.ll1 = (LinearLayout) this.findViewById(R.id.LinearLCnv1);
 
 
         this.canvas = new canvas(this);
@@ -203,7 +200,7 @@ public class activity_draw extends ActionBarActivity {
 
         ////////////
         this.getVersion(this.canvas);
-        this.l1.addView(canvas);
+        this.ll1.addView(canvas);
 
 
     }
@@ -291,46 +288,46 @@ public class activity_draw extends ActionBarActivity {
      */
     public void addMenuActions(Menu menu) {
 
-        this.items[0] = menu.add(0, 0, menu.NONE, "Mano alzada");
+        this.items[0] = menu.add(0, 0, menu.NONE,R.string.hand_made);
         this.items[0].setIcon(R.drawable.hand);
         this.items[0].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 
-        this.items[1] = menu.add(0, 1, menu.NONE, "Regla Recta");
+        this.items[1] = menu.add(0, 1, menu.NONE, R.string.ruler);
         this.items[1].setIcon(R.drawable.ruler);
         this.items[1].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[1].setVisible(false);
 
-        this.items[2] = menu.add(0, 2, menu.NONE, "Borrado");
+        this.items[2] = menu.add(0, 2, menu.NONE, R.string.eraser);
         this.items[2].setIcon(R.drawable.eraser);
         this.items[2].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[2].setVisible(false);
 
-        this.items[3] = menu.add(0, 4, menu.NONE, "Compas");
+        this.items[3] = menu.add(0, 4, menu.NONE, R.string.compass);
         this.items[3].setIcon(R.drawable.compass);
         this.items[3].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[3].setVisible(false);
 
 
-        this.i1 = menu.add(0, 7, Menu.NONE, "Aceptar");
+        this.i1 = menu.add(0, 7, Menu.NONE, R.string.accept);
         i1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         i1.setIcon(this.getResources().getDrawable(R.drawable.check));
         i1.setVisible(false);
 
-        this.i2 = menu.add(0, 8, Menu.NONE, "Rechazar");
+        this.i2 = menu.add(0, 8, Menu.NONE, R.string.dismiss);
         i2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         i2.setIcon(this.getResources().getDrawable(R.drawable.delete));
         i2.setVisible(false);
 
 
-        menu.add(0, 3, menu.NONE, "Limpiar").setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-        menu.add(0, 5, menu.NONE, "Guardar").setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        menu.add(0, 3, menu.NONE, R.string.clean).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        menu.add(0, 5, menu.NONE, R.string.save).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
         // Espacio, entre herramientas
-        menu.add(0,9,menu.NONE,"      ").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0,9,menu.NONE,R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 
-        MenuItem i3 = menu.add(0, 6, Menu.NONE, "Deshacer");
+        MenuItem i3 = menu.add(0, 6, Menu.NONE, R.string.undo);
         i3.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         i3.setIcon(this.getResources().getDrawable(R.drawable.undo));
 
@@ -510,11 +507,11 @@ public class activity_draw extends ActionBarActivity {
 
     public void CloseDialog(){
         AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle("Salir");
-        b.setMessage("¿Deseas salir del lienzo?");
+        b.setTitle(R.string.exit_title);
+        b.setMessage(R.string.exit_msg);
         b.setCancelable(true);
 
-        b.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+        b.setPositiveButton(R.string.exit_accept, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent i = new Intent().setClass(getBaseContext(), activity_homescreen.class);
@@ -523,9 +520,9 @@ public class activity_draw extends ActionBarActivity {
             }
         });
 
-        b.setNegativeButton("Cancelar", null);
+        b.setNegativeButton(R.string.exit_cancel, null);
 
-        b.setNeutralButton("Guardar y salir", new DialogInterface.OnClickListener() {
+        b.setNeutralButton(R.string.exit_neutral, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
               SaveBMP(false);
