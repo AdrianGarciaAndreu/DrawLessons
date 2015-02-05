@@ -51,6 +51,7 @@ public class activity_draw extends ActionBarActivity {
 
     public static MenuItem i1;
     public static MenuItem i2;
+    public static MenuItem distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,11 +304,18 @@ public class activity_draw extends ActionBarActivity {
         this.items[2].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[2].setVisible(false);
 
+        menu.add(0, 3, menu.NONE, R.string.clean).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
         this.items[3] = menu.add(0, 4, menu.NONE, R.string.compass);
         this.items[3].setIcon(R.drawable.compass);
         this.items[3].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[3].setVisible(false);
 
+        menu.add(0, 5, menu.NONE, R.string.save).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
+        MenuItem i3 = menu.add(0, 6, Menu.NONE, R.string.undo);
+        i3.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        i3.setIcon(this.getResources().getDrawable(R.drawable.undo));
 
         this.i1 = menu.add(0, 7, Menu.NONE, R.string.accept);
         i1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -319,17 +327,15 @@ public class activity_draw extends ActionBarActivity {
         i2.setIcon(this.getResources().getDrawable(R.drawable.delete));
         i2.setVisible(false);
 
-
-        menu.add(0, 3, menu.NONE, R.string.clean).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-        menu.add(0, 5, menu.NONE, R.string.save).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-
         // Espacio, entre herramientas
         menu.add(0,9,menu.NONE,R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 
-        MenuItem i3 = menu.add(0, 6, Menu.NONE, R.string.undo);
-        i3.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        i3.setIcon(this.getResources().getDrawable(R.drawable.undo));
+        activity_draw.distance = menu.add(0,10,menu.NONE,null);
+        this.distance.setTitle("200");
+        this.distance.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+
 
     }
 
