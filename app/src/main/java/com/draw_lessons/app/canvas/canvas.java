@@ -900,6 +900,22 @@ public class canvas extends View{
      * realizados por el usuario
      */
     public void Undo(){
+        canvas.rulerT1 = false;
+        canvas.rulerT2 = false;
+        canvas.rulerLayer = false;
+        canvas.rulerBmp = null;
+
+        canvas.compassT1 = false;
+        canvas.compassT2 = false;
+        canvas.compassT3 = false;
+        canvas.compasLayer = false;
+        canvas.compassBmp = null;
+
+        activity_draw.i1.setVisible(false);
+        activity_draw.i2.setVisible(false);
+
+        this.p.setStrokeWidth(SIZE_SMALL);
+
 
         this.cnv.drawColor(this.getResources().getColor(R.color.back_color));
         int c = (this.Trazos.size()-doBack)-1;

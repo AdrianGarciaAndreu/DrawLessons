@@ -76,6 +76,7 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
 
             case R.id.imageView_new:
                 startActivity(i_draw);
+                finish();
                 break;
             case R.id.imageView_open:
                 break;

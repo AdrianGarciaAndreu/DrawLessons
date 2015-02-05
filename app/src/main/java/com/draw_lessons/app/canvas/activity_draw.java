@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.contenidos.activity_contenidos;
+import com.draw_lessons.app.menus.activity_homescreen;
 
 import java.io.File;
 
@@ -35,7 +37,6 @@ public class activity_draw extends ActionBarActivity {
     private LinearLayout l1;
     private canvas canvas;
     private MenuItem items[];
-    private int AppColor = 0x5500AAEE; //color básico de la aplicacion
 
     DrawerLayout cnvDrawerLayout;
     String[] cnvDrawerListItems;
@@ -44,10 +45,12 @@ public class activity_draw extends ActionBarActivity {
 
     public boolean toolClicked = true;
     public int ClickedID = 0;
-    private int doBack = 1;
 
     private String appPath = Environment.getExternalStorageDirectory().toString() + "/DrawLessons";
     public EditText et1;
+
+    public static MenuItem i1;
+    public static MenuItem i2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,35 +200,15 @@ public class activity_draw extends ActionBarActivity {
         this.canvas.setResY(y);
         this.canvas.prepareCancas();
         this.canvas.setStrokeSize(canvas.SIZE_SMALL);
-        // this.canvas.setRubishIcon(R.drawable.rubish);
 
-
+        ////////////
+        this.getVersion(this.canvas);
         this.l1.addView(canvas);
 
 
     }
 
 
-/*
-    */
-/**
- * Metodo para gestionar
- * la personalización de la barra de
- * tareas deprecated
- *//*
-
-    public void ToolbarCustom(){
-        android.support.v7.app.ActionBar ab = this.getSupportActionBar();
-        ab.setBackgroundDrawable(new ColorDrawable(0x5500AAEE));
-
-        ab.setHomeButtonEnabled(true);
-        ab.setLogo(R.drawable.icondl);
-
-        ab.setDisplayShowHomeEnabled(true);
-        ab.setIcon(R.drawable.icondl);
-
-    }
-*/
 
 
     /**
@@ -298,8 +281,7 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
-    public static MenuItem i1;
-    public static MenuItem i2;
+
 
     /**
      * Metodo para añadir menus a la
@@ -312,6 +294,7 @@ public class activity_draw extends ActionBarActivity {
         this.items[0] = menu.add(0, 0, menu.NONE, "Mano alzada");
         this.items[0].setIcon(R.drawable.hand);
         this.items[0].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
 
         this.items[1] = menu.add(0, 1, menu.NONE, "Regla Recta");
         this.items[1].setIcon(R.drawable.ruler);
@@ -331,18 +314,25 @@ public class activity_draw extends ActionBarActivity {
 
         this.i1 = menu.add(0, 7, Menu.NONE, "Aceptar");
         i1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        i1.setIcon(R.drawable.check);
+        i1.setIcon(this.getResources().getDrawable(R.drawable.check));
         i1.setVisible(false);
 
         this.i2 = menu.add(0, 8, Menu.NONE, "Rechazar");
         i2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        i2.setIcon(R.drawable.delete);
+        i2.setIcon(this.getResources().getDrawable(R.drawable.delete));
         i2.setVisible(false);
+
 
         menu.add(0, 3, menu.NONE, "Limpiar").setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         menu.add(0, 5, menu.NONE, "Guardar").setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-        menu.add(0, 6, Menu.NONE, "Deshacer").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
+        // Espacio, entre herramientas
+        menu.add(0,9,menu.NONE,"      ").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+
+        MenuItem i3 = menu.add(0, 6, Menu.NONE, "Deshacer");
+        i3.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        i3.setIcon(this.getResources().getDrawable(R.drawable.undo));
 
     }
 
@@ -383,7 +373,8 @@ public class activity_draw extends ActionBarActivity {
                 && id != 5
                 && id != 6
                 && id != 7
-                && id != 8) {
+                && id != 8
+                && id != 9) {
 
             if (this.toolClicked == true) {
                 this.UnHide();
@@ -395,18 +386,13 @@ public class activity_draw extends ActionBarActivity {
         }
 
         if (id == 3) {
-
             cleaner c = new cleaner(this, this.canvas);
             c.cleanCanvas();
         }
 
 
         if (id == 5) {
-
-            //saver s = new saver(canvas.getBitmapt(),getBaseContext());
-            //s.Save();
             this.SaveBMP();
-
         }
 
 
@@ -444,6 +430,7 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
+
     /**
      * Crea un dialogo para guardar
      * una imagen
@@ -478,6 +465,84 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
+    /**
+     * Crea un dialogo para guardar
+     * una imagen despues de guardar
+     * la imagen, sale al menu
+     *
+     * Metodo sobrecargado, el parametro es irrelevante
+     */
+    public void SaveBMP(boolean ex){
+
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+
+        b.setMessage(R.string.save_msg);
+        b.setCancelable(true);
+
+        b.setPositiveButton(R.string.save_draw, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saver s = new saver(canvas.getBitmapt(),getBaseContext(),et1.getText().toString());
+                s.Save();
+                Toast.makeText(getBaseContext(),R.string.save_toast,Toast.LENGTH_SHORT).show();
+                Intent i = new Intent().setClass(getBaseContext(),activity_homescreen.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        b.setNegativeButton(R.string.cancel, null);
+
+
+        b.setTitle(R.string.save_title);
+        b.setIcon(this.getResources().getDrawable(R.drawable.save));
+
+        b.setView(et1);
+
+        AlertDialog ad = b.create();
+        ad.show();
+    }
+
+
+
+
+
+
+    public void CloseDialog(){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle("Salir");
+        b.setMessage("¿Deseas salir del lienzo?");
+        b.setCancelable(true);
+
+        b.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent().setClass(getBaseContext(), activity_homescreen.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        b.setNegativeButton("Cancelar", null);
+
+        b.setNeutralButton("Guardar y salir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              SaveBMP(false);
+            }
+        });
+
+        b.setIcon(this.getResources().getDrawable(R.drawable.delete));
+        AlertDialog a = b.create();
+        a.show();
+
+
+
+    }
+
+
+
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -492,4 +557,8 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        this.CloseDialog();
+    }
 }
