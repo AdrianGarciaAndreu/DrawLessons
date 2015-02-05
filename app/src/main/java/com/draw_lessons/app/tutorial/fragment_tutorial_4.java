@@ -67,7 +67,7 @@ public class fragment_tutorial_4 extends Fragment implements View.OnClickListene
         SharedPreferences preferences;
         preferences = context.getSharedPreferences("info", Context.MODE_PRIVATE);
         Editor editor = preferences.edit();
-        editor.putInt("singIn", 1);
+        editor.putBoolean("showTuto", true);
         editor.commit();
     }
 }

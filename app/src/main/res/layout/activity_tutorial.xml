@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:padding="10dip"
         app:radius="12dp"
-        app:fillColor="#000000"
-        app:pageColor="#FF0000"
-        app:strokeColor="#0000FF" />
+        app:fillColor="#00ACC1"
+        app:pageColor="#FAFAFA"
+        app:strokeColor="#00ACC1" />
 
 </LinearLayout>
