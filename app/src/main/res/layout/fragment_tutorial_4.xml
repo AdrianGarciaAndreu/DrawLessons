@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingTop="20dp"
-        android:text="Loguéate con Google"
+        android:text="Ultima pagina"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
@@ -20,13 +20,21 @@
         android:layout_gravity="center"
         android:paddingTop="10dp" />
 
-    <Button
-        android:id="@+id/bt_google"
-        android:layout_width="260dp"
-        android:layout_height="57dp"
-        android:layout_gravity="center|center_vertical"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/sign_google" />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ib_understood"
+        android:layout_gravity="center"
+        android:background="@drawable/understood" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Entendido"
+        android:id="@+id/textView"
+        android:layout_gravity="center"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/textView2"
