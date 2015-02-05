@@ -21,7 +21,7 @@ public class adapter_tutorial extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
+//a
         return fragments.get(position);
     }
 
