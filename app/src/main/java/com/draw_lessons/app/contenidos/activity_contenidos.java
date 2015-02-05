@@ -18,15 +18,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.RecyclerItemClickListener;
 import com.draw_lessons.app.canvas.activity_draw;
-import com.draw_lessons.app.canvas.cnvAdapter;
 
 public class activity_contenidos extends ActionBarActivity {
 
@@ -114,6 +109,8 @@ public class activity_contenidos extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+
+       cargarCursos();
     }
 
     @Override
@@ -142,5 +139,14 @@ public class activity_contenidos extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    //Carga el fragment cursos
+    public void cargarCursos() {
+        FragmentTransaction ft;
+        Fragment frag;
+        frag = new fragment_cursos();
+        ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+        ft.commit();
     }
 }

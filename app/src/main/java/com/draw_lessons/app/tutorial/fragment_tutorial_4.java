@@ -14,7 +14,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.draw_lessons.app.menus.activity_homescreen;
 import com.draw_lessons.app.R;
@@ -23,7 +23,7 @@ import com.draw_lessons.app.R;
 // Última pantalla del activity_tutorial de bienvenida donde se realiza el login de Google.
 public class fragment_tutorial_4 extends Fragment implements View.OnClickListener {
 
-    Button google;
+    ImageButton understood;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,17 +37,17 @@ public class fragment_tutorial_4 extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        google = (Button) getView().findViewById(R.id.bt_google);
+        understood = (ImageButton) getView().findViewById(R.id.ib_understood);
 
-        google.setOnClickListener(this);
+        understood.setOnClickListener(this);
     }
 
 
-    //Lo que hace el botón de registro de Google
+    //Lo que hace el botón de tutorial entendido
     @Override
     public void onClick(View v) {
 
-        if (v == google) {
+        if (v == understood) {
 
             // Si el usuario ha pulsado el botón, guardamos el dato.
             this.saveSingInGoogle();
@@ -61,7 +61,7 @@ public class fragment_tutorial_4 extends Fragment implements View.OnClickListene
 
     }
 
-    // Este método guarda si el usuario se ha logeado para no volver a mostrar el activity_tutorial.
+    // Este método guarda si el usuario ha entendido el tutorial para no volver a mostrar el activity_tutorial.
     public void saveSingInGoogle() {
         Context context = getActivity();
         SharedPreferences preferences;
