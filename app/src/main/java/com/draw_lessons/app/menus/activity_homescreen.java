@@ -1,12 +1,16 @@
 package com.draw_lessons.app.menus;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.activity_draw;
@@ -79,6 +83,11 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
                 finish();
                 break;
             case R.id.imageView_open:
+                Intent i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(i, "Escoge imágen"), 1);
+
                 break;
             case R.id.imageView_contents:
                 startActivity(i_content);
@@ -90,8 +99,36 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
 
         }
 
+
 //        if(v == bt_exit){
 //            finish();
 //        }
     }
+
+
+    /**
+     * Recibiendo resultado de
+     * la apertura de un proyecto
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+       if (resultCode == RESULT_OK) {
+            Uri u = data.getData();
+           String s = u.getPath();
+
+
+            bt_exit.setImageBitmap(BitmapFactory.decodeFile(s));
+           Toast.makeText(this,s,Toast.LENGTH_LONG).show();
+       }
+
+    }
+
+
+
+
 }

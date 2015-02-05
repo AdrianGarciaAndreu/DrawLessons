@@ -201,6 +201,10 @@ public class canvas extends View{
     }
 
 
+
+    //Metodo tocado para que siga las coordenadas de la toolbar
+    // en función de sus puntos
+
     /**
      * Método de dibujado de la regla recta
      * @param event
@@ -279,6 +283,8 @@ public class canvas extends View{
                         tmpCNV.drawCircle(event.getX(), event.getY(), 50, tmpP);
                         tmpCNV.drawCircle(this.rulerX1, this.rulerY1, 50, tmpP);
 
+                        activity_draw.setX2(event.getX());
+                        activity_draw.setY2(event.getY());
 
                         this.invalidate();
                         break;
@@ -291,6 +297,9 @@ public class canvas extends View{
                         this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,event.getX(),event.getY());
                         activity_draw.distance.setTitle(String.valueOf(this.dist));
 
+                        activity_draw.setX2(event.getX());
+                        activity_draw.setY2(event.getY());
+
                         this.invalidate();
                         break;
 
@@ -301,8 +310,14 @@ public class canvas extends View{
                         this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,event.getX(),event.getY());
                         activity_draw.distance.setTitle(String.valueOf(this.dist));
 
+
+
                         this.rulerX2 = event.getX();
                         this.rulerY2 = event.getY();
+
+                        activity_draw.setX2(this.rulerX2);
+                        activity_draw.setY2(this.rulerY2);
+
                         tmpCNV.drawPoint(event.getX(), event.getY(), this.p);
 
 
@@ -327,11 +342,19 @@ public class canvas extends View{
 
                         canvas.rulerLayer = true;
                         tmpCNV.drawCircle(event.getX(), event.getY(), 50, tmpP);
+
+                        activity_draw.setX1(event.getX());
+                        activity_draw.setY1(event.getY());
+
                         this.invalidate();
                         break;
 
                     case MotionEvent.ACTION_MOVE:
                         tmpCNV.drawCircle(event.getX(), event.getY(), 50, tmpP);
+
+                        activity_draw.setX1(event.getX());
+                        activity_draw.setY1(event.getY());
+
                         this.invalidate();
                         break;
 
@@ -340,6 +363,9 @@ public class canvas extends View{
                         this.rulerX1 = event.getX();
                         this.rulerY1 = event.getY();
                         tmpCNV.drawPoint(event.getX(), event.getY(), this.p);
+
+                        activity_draw.setX1(this.rulerX1);
+                        activity_draw.setY1(this.rulerY1);
 
                         canvas.rulerT1 = true;
                         this.invalidate();
@@ -379,6 +405,9 @@ public class canvas extends View{
 
 
     }
+
+
+
 
 
     /**

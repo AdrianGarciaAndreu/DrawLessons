@@ -616,15 +616,46 @@ public class activity_draw extends ActionBarActivity {
 
 
 
+/*
+    Metodos para setear las coordenadas
+    de los puntos marcados en el canvas
+
+ */
+
+
+
+
 
     public static  void setX1(float a){
 
         float aux=(float)Math.rint(a*100)/100;
         a=aux;
-
-        String s = String.valueOf(a);
-
+        String s = String.valueOf(a)+", x1";
         activity_draw.x1.setTitle(s);
+    }
+
+    public static  void setY1(float a){
+
+        float aux=(float)Math.rint(a*100)/100;
+        a=aux;
+        String s = String.valueOf(a)+", y1";
+        activity_draw.y1.setTitle(s);
+    }
+
+    public static  void setX2(float a){
+
+        float aux=(float)Math.rint(a*100)/100;
+        a=aux;
+        String s = String.valueOf(a)+", x2";
+        activity_draw.x2.setTitle(s);
+    }
+
+    public static  void setY2(float a){
+
+        float aux=(float)Math.rint(a*100)/100;
+        a=aux;
+        String s = String.valueOf(a)+", y2";
+        activity_draw.y2.setTitle(s);
     }
 
 

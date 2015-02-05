@@ -41,4 +41,9 @@
     <string name="exit_neutral">"Guardar y salir"</string>
     <string name="exit_cancel">"Cancelar"</string>
 
+
+
+    <string name="title_activity_open_file">open_file</string>
+    
+
 </resources>
