@@ -96,6 +96,8 @@ public class canvas extends View{
 
 
 
+    private float dist = 0.00f;
+
 
 
     /**
@@ -215,6 +217,7 @@ public class canvas extends View{
         tmpP.setStrokeWidth(5);
         tmpP.setColor(this.getResources().getColor(R.color.app_color));
 
+
         if (this.drawing==true) {
 
             if (rulerT1 == true && rulerT2 == true) {
@@ -234,12 +237,18 @@ public class canvas extends View{
                             tmpCNV.drawLine(this.rulerX1, this.rulerY1, this.rulerX2, this.rulerY2, this.p);
                             tmpCNV.drawCircle(this.rulerX1, this.rulerY1, 50, tmpP);
 
+                            this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,this.rulerX2,this.rulerY2);
+                            activity_draw.distance.setTitle(String.valueOf(this.dist));
+
                             this.invalidate();
                         } else {
                             this.rulerX2 = event.getX();
                             this.rulerY2 = event.getY();
                             tmpCNV.drawLine(this.rulerX1, this.rulerY1, this.rulerX2, this.rulerY2, this.p);
                             tmpCNV.drawCircle(this.rulerX2, this.rulerY2, 50, tmpP);
+
+                            this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,event.getX(),event.getY());
+                            activity_draw.distance.setTitle(String.valueOf(this.dist));
 
                             this.invalidate();
 
@@ -251,6 +260,10 @@ public class canvas extends View{
                         tmpCNV.drawLine(this.rulerX1, this.rulerY1, this.rulerX2, this.rulerY2, this.p);
                         tmpCNV.drawCircle(this.rulerX1, this.rulerY1, 50, tmpP);
                         tmpCNV.drawCircle(this.rulerX2, this.rulerY2, 50, tmpP);
+
+                        this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,this.rulerX2,this.rulerY2);
+                        activity_draw.distance.setTitle(String.valueOf(this.dist));
+
                         this.invalidate();
 
                         break;
@@ -265,6 +278,8 @@ public class canvas extends View{
                         canvas.rulerLayer = true;
                         tmpCNV.drawCircle(event.getX(), event.getY(), 50, tmpP);
                         tmpCNV.drawCircle(this.rulerX1, this.rulerY1, 50, tmpP);
+
+
                         this.invalidate();
                         break;
 
@@ -272,12 +287,20 @@ public class canvas extends View{
                         tmpCNV.drawCircle(event.getX(), event.getY(), 50, tmpP);
                         tmpCNV.drawCircle(this.rulerX1, this.rulerY1, 50, tmpP);
                         tmpCNV.drawLine(this.rulerX1,this.rulerY1,event.getX(),event.getY(),this.p);
+
+                        this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,event.getX(),event.getY());
+                        activity_draw.distance.setTitle(String.valueOf(this.dist));
+
                         this.invalidate();
                         break;
 
                     case MotionEvent.ACTION_UP:
                         tmpCNV.drawCircle(event.getX(), event.getY(), 50, tmpP);
                         tmpCNV.drawCircle(this.rulerX1, this.rulerY1, 50, tmpP);
+
+                        this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,event.getX(),event.getY());
+                        activity_draw.distance.setTitle(String.valueOf(this.dist));
+
                         this.rulerX2 = event.getX();
                         this.rulerY2 = event.getY();
                         tmpCNV.drawPoint(event.getX(), event.getY(), this.p);

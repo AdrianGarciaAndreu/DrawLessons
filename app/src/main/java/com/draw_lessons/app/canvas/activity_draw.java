@@ -51,7 +51,9 @@ public class activity_draw extends ActionBarActivity {
 
     public static MenuItem i1;
     public static MenuItem i2;
+
     public static MenuItem distance;
+    public static MenuItem x1,y1,x2,y2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +180,8 @@ public class activity_draw extends ActionBarActivity {
 
     }
 
+
+
     /**
      * Método que capta la resolucion de la pantalla, coge el Layout del activity, crea un Objeto
      * de la clase Cnv, le da una resolucion X y una resolucion Y al canvas, lanza el método que
@@ -289,6 +293,47 @@ public class activity_draw extends ActionBarActivity {
      */
     public void addMenuActions(Menu menu) {
 
+        this.i1 = menu.add(0, 7, Menu.NONE, R.string.accept);
+        i1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        i1.setIcon(this.getResources().getDrawable(R.drawable.check));
+        i1.setVisible(false);
+
+        this.i2 = menu.add(0, 8, Menu.NONE, R.string.dismiss);
+        i2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        i2.setIcon(this.getResources().getDrawable(R.drawable.delete));
+        i2.setVisible(false);
+
+
+
+
+        activity_draw.x1 = menu.add(0, 11, menu.NONE,"x1");
+        activity_draw.x1.setTitle("0.00, x1");
+        activity_draw.x1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        activity_draw.y1 = menu.add(0, 12, menu.NONE,"y1");
+        activity_draw.y1.setTitle("0.00, y1");
+        activity_draw.y1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        activity_draw.x2 = menu.add(0, 13, menu.NONE,"x2");
+        activity_draw.x2.setTitle("0.00, x2");
+        activity_draw.x2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        activity_draw.y2 = menu.add(0, 14, menu.NONE,"y2");
+        activity_draw.y2.setTitle("0.00, y2");
+        activity_draw.y2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+
+
+        //Distancia del ultimo Objeto despues de ser usado
+        activity_draw.distance = menu.add(0,10,menu.NONE,"Distancia/Radio");
+        activity_draw.distance.setTitle("0.00, dist");
+        activity_draw.distance.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        menu.add(0,11,menu.NONE,R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+
+
+
         this.items[0] = menu.add(0, 0, menu.NONE,R.string.hand_made);
         this.items[0].setIcon(R.drawable.hand);
         this.items[0].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -304,37 +349,23 @@ public class activity_draw extends ActionBarActivity {
         this.items[2].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[2].setVisible(false);
 
-        menu.add(0, 3, menu.NONE, R.string.clean).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
         this.items[3] = menu.add(0, 4, menu.NONE, R.string.compass);
         this.items[3].setIcon(R.drawable.compass);
         this.items[3].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[3].setVisible(false);
 
-        menu.add(0, 5, menu.NONE, R.string.save).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        // Espacio, entre herramientas
+        menu.add(0,9,menu.NONE,R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
 
         MenuItem i3 = menu.add(0, 6, Menu.NONE, R.string.undo);
         i3.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         i3.setIcon(this.getResources().getDrawable(R.drawable.undo));
 
-        this.i1 = menu.add(0, 7, Menu.NONE, R.string.accept);
-        i1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        i1.setIcon(this.getResources().getDrawable(R.drawable.check));
-        i1.setVisible(false);
 
-        this.i2 = menu.add(0, 8, Menu.NONE, R.string.dismiss);
-        i2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        i2.setIcon(this.getResources().getDrawable(R.drawable.delete));
-        i2.setVisible(false);
-
-        // Espacio, entre herramientas
-        menu.add(0,9,menu.NONE,R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-
-        activity_draw.distance = menu.add(0,10,menu.NONE,null);
-        this.distance.setTitle("200");
-        this.distance.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
+        menu.add(0, 3, menu.NONE, R.string.clean).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        menu.add(0, 5, menu.NONE, R.string.save).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
 
     }
@@ -564,4 +595,24 @@ public class activity_draw extends ActionBarActivity {
     public void onBackPressed() {
         this.CloseDialog();
     }
+
+
+
+
+
+    public static  void setX1(float a){
+
+        float aux=(float)Math.rint(a*100)/100;
+        a=aux;
+
+        String s = String.valueOf(a);
+
+        activity_draw.x1.setTitle(s);
+    }
+
+
+
+
+
+
 }
