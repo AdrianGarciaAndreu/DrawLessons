@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,17 +24,30 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.draw_lessons.app.R;
+import com.draw_lessons.app.canvas.RecyclerItemClickListener;
 import com.draw_lessons.app.canvas.activity_draw;
+import com.draw_lessons.app.canvas.cnvAdapter;
 
 public class activity_contenidos extends ActionBarActivity {
 
     DrawerLayout mDrawerLayout;
-    ListView mDrawerList;
+
     ActionBarDrawerToggle mDrawerToggle;
-    String[] mDrawerListItems;
+
+    RecyclerView.Adapter contAdapter;                        // Declaring Adapter For Recycler View
+    RecyclerView.LayoutManager contLayoutManager;
+    RecyclerView contRecycle;
+
+    String NAME = "Aleix Casanova";
+    String EMAIL = "aleix.casanova@gmail.com";
+    int PROFILE = R.drawable.icondl;
+    String TITLES[] = {"Canvas","Contenidos"};
+    int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
+
     FragmentManager fm;
     Fragment frag;
     FragmentTransaction ft;
+
 
 
     @Override
@@ -40,36 +55,40 @@ public class activity_contenidos extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contenidos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        contRecycle = (RecyclerView) findViewById(R.id.recycler_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        mDrawerList = (ListView) findViewById(android.R.id.list);
-        mDrawerListItems = getResources().getStringArray(R.array.drawer_list);
+        contRecycle.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
+        contAdapter= new com.draw_lessons.app.canvas.cnvAdapter(TITLES,ICONS,NAME,EMAIL,PROFILE);
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerListItems));
+        contRecycle.setAdapter(contAdapter);
+        contLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
 
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int editedPosition = position + 1;
-                Toast.makeText(activity_contenidos.this, "You selected item " + editedPosition, Toast.LENGTH_SHORT).show();
-                switch (position) {
-                    case 0:
-                        Intent i_cnv = new Intent(view.getContext(), activity_draw.class);
-                        startActivity(i_cnv);
-                        finish();
-                        break;
-                    case 1:
-                        //No hacemos nada ya qu estamos en la sección actual
-                        break;
-                    case 2:
+        contRecycle.setLayoutManager(contLayoutManager);
+        contRecycle.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        // do whatever
+                        switch (position) {
+                            case 0:
+                                //Header no hacer nada
+                                break;
+                            case 1:
+                                Intent i_canvas = new Intent(view.getContext(), activity_draw.class);
+                                startActivity(i_canvas);
+                                finish();
+                                break;
+                            case 2:
+                                //No hacemos nada ya qu estamos en la sección actual
+                                break;
+                            case 3:
 
-                        break;
-                    case 3:
-                        break;
-                }
+                                break;
+                        }
 
-            }
-        });
+                    }
+                })
+        );
+
         mDrawerToggle = new ActionBarDrawerToggle(this,
                 mDrawerLayout,
                 toolbar,
@@ -88,10 +107,13 @@ public class activity_contenidos extends ActionBarActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        mDrawerToggle.syncState();
+
     }
 
     @Override
@@ -110,10 +132,10 @@ public class activity_contenidos extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-                    mDrawerLayout.closeDrawer(mDrawerList);
+                if (mDrawerLayout.isDrawerOpen(contRecycle)) {
+                    mDrawerLayout.closeDrawer(contRecycle);
                 } else {
-                    mDrawerLayout.openDrawer(mDrawerList);
+                    mDrawerLayout.openDrawer(contRecycle);
                 }
                 return true;
             }

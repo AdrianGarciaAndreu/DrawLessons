@@ -41,13 +41,4 @@
     <string name="exit_neutral">"Guardar y salir"</string>
     <string name="exit_cancel">"Cancelar"</string>
 
-
-
-
-
-
-    <string-array name="drawer_list">
-        <item>Lienzo</item>
-        <item>Cursos</item>
-    </string-array>
 </resources>

@@ -14,6 +14,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,9 +41,16 @@ public class activity_draw extends ActionBarActivity {
     private MenuItem items[];
 
     DrawerLayout cnvDrawerLayout;
-    String[] cnvDrawerListItems;
-    ListView cnvDrawerList;
     ActionBarDrawerToggle cnvDrawerToggle;
+
+    RecyclerView.Adapter cnvAdapter;                        // Declaring Adapter For Recycler View
+    RecyclerView.LayoutManager cnvLayoutManager;
+    RecyclerView cnvRecycle;
+    String NAME = "Aleix Casanova";
+    String EMAIL = "aleix.casanova@gmail.com";
+    int PROFILE = R.drawable.icondl;
+    String TITLES[] = {"Canvas","Contenidos"};
+    int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
 
     public boolean toolClicked = true;
     public int ClickedID = 0;
@@ -61,39 +70,47 @@ public class activity_draw extends ActionBarActivity {
 
         setContentView(R.layout.activity_draw);
 
-        cnvDrawerListItems = getResources().getStringArray(R.array.drawer_list);
-        cnvDrawerList = (ListView) findViewById(android.R.id.list);
+        cnvRecycle = (RecyclerView) findViewById(R.id.recycler_view_cnv); // Assigning the RecyclerView Object to the xml View
+        cnvRecycle.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
+        cnvAdapter = new com.draw_lessons.app.canvas.cnvAdapter(TITLES,ICONS,NAME,EMAIL,PROFILE);
+
+
         cnvDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_cnv);
+        cnvRecycle.setAdapter(cnvAdapter);
+        cnvLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
+
+        cnvRecycle.setLayoutManager(cnvLayoutManager);
+        cnvRecycle.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        // do whatever
+                        switch (position) {
+                            case 0:
+                                //Header no hacer nada
+                                break;
+                            case 1:
+                                //No hacemos nada ya qu estamos en la sección actual
+                                break;
+                            case 2:
+                                Intent i_curso = new Intent(view.getContext(), activity_contenidos.class);
+                                startActivity(i_curso);
+                                finish();
+                                break;
+                            case 3:
+
+                                break;
+                        }
+
+                    }
+                })
+        );
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_cnv);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(false);
 
-        cnvDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, cnvDrawerListItems));
-        cnvDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int editedPosition = position + 1;
-                FragmentTransaction ft;
-                switch (position) {
-                    case 0:
-                        //No hacemos nada ya qu estamos en la sección actual
-                        break;
-                    case 1:
-                        Intent i_curso = new Intent(view.getContext(), activity_contenidos.class);
-                        startActivity(i_curso);
-                        finish();
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
 
-                cnvDrawerLayout.closeDrawer(cnvDrawerList);
-            }
-        });
         cnvDrawerToggle = new ActionBarDrawerToggle(this,
                 cnvDrawerLayout,
                 toolbar,
@@ -112,7 +129,7 @@ public class activity_draw extends ActionBarActivity {
             }
         };
         cnvDrawerLayout.setDrawerListener(cnvDrawerToggle);
-
+        cnvDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         cnvDrawerToggle.syncState();
 
         this.createDrawer();

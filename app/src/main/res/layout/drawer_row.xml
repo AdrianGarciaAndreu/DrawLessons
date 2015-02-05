@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/text_row"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:paddingTop="0dp"
+              android:paddingBottom="0dp"
+              android:layout_height="48dp"
+              android:background="#00ffffff"
+              android:orientation="horizontal"
+              android:gravity="center"
+              android:elevation="12dp"
+              android:baselineAligned="false"
+              android:showDividers="end">
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="32dp"
+    android:layout_height="32dp"
+    android:id="@+id/rowIcon"
+    android:paddingLeft="16dp"
+    android:src="@drawable/ic_launcher"
+    android:layout_gravity="center"
+    android:layout_margin="8dp"/>
 
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/text_row"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:autoText="false"
+          android:paddingRight="8dp"
+          android:textSize="@dimen/abc_text_size_title_material"
+          >
 </TextView>
+</LinearLayout>
