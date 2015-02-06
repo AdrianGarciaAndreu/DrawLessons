@@ -7,7 +7,7 @@
         android:id="@+id/ruler_tool"
         app:showAsAction="always"
         android:title="@string/ruler"
-        android:icon="@drawable/ruler"/>
+        android:icon="@drawable/ic_ruler"/>
 
 
     <!-- Icono compas -->
@@ -15,21 +15,21 @@
         android:id="@+id/compass_tool"
         app:showAsAction="always"
         android:title="@string/compass"
-        android:icon="@drawable/compass"/>
+        android:icon="@drawable/ic_compass"/>
 
     <!-- Icono mano alzada -->
     <item
         android:id="@+id/hand_tool"
         app:showAsAction="always"
         android:title="@string/hand"
-        android:icon="@drawable/hand"/>
+        android:icon="@drawable/ic_pencil"/>
 
     <!-- Icono goma -->
     <item
         android:id="@+id/eraser_tool"
         app:showAsAction="always"
         android:title="@string/eraser"
-        android:icon="@drawable/eraser"/>
+        android:icon="@drawable/ic_eraser"/>
 
 
 

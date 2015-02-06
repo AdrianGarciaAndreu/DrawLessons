@@ -284,33 +284,33 @@ public class activity_draw extends ActionBarActivity {
     public void addMenuActions(Menu menu) {
 
         this.items[0] = menu.add(0, 0, menu.NONE, "Mano alzada");
-        this.items[0].setIcon(R.drawable.hand);
+        this.items[0].setIcon(R.drawable.ic_pencil);
         this.items[0].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         this.items[1] = menu.add(0, 1, menu.NONE, "Regla Recta");
-        this.items[1].setIcon(R.drawable.ruler);
+        this.items[1].setIcon(R.drawable.ic_ruler);
         this.items[1].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[1].setVisible(false);
 
         this.items[2] = menu.add(0, 2, menu.NONE, "Borrado");
-        this.items[2].setIcon(R.drawable.eraser);
+        this.items[2].setIcon(R.drawable.ic_eraser);
         this.items[2].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[2].setVisible(false);
 
         this.items[3] = menu.add(0, 4, menu.NONE, "Compas");
-        this.items[3].setIcon(R.drawable.compass);
+        this.items[3].setIcon(R.drawable.ic_compass);
         this.items[3].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[3].setVisible(false);
 
 
         this.i1 = menu.add(0, 7, Menu.NONE, "Aceptar");
         i1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        i1.setIcon(R.drawable.check);
+        i1.setIcon(R.drawable.ic_ok);
         i1.setVisible(false);
 
         this.i2 = menu.add(0, 8, Menu.NONE, "Rechazar");
         i2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        i2.setIcon(R.drawable.delete);
+        i2.setIcon(R.drawable.ic_cancel);
         i2.setVisible(false);
 
         menu.add(0, 3, menu.NONE, "Limpiar").setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);

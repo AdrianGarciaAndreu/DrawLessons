@@ -6,14 +6,14 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tv_headTuto1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingTop="20dp"
         android:text="Bienvenido a Draw Lessons"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="35dp"
+        android:textSize="50dp"
         android:textStyle="bold" />
 
     <ImageView
@@ -24,14 +24,15 @@
         android:background="@drawable/ic_screendraw"
         android:layout_marginTop="25dp" />
 
-    <EditText
-        android:layout_width="499dp"
+    <TextView
+        android:layout_width="563dp"
         android:layout_height="wrap_content"
         android:text="Una app educativa ideada para mejorar y poner en práctica tus conocimientos sobre dibujo técnico de una manera fácil."
         android:textStyle="bold"
+        android:textSize="20dp"
         android:editable="false"
-        android:id="@+id/editText"
-        android:layout_marginTop="35dp"
+        android:id="@+id/editText_Tuto1"
+        android:layout_marginTop="40dp"
         android:autoText="false"
         android:elegantTextHeight="true" />
 
