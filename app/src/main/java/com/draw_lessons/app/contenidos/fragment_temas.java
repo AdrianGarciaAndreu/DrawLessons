@@ -31,7 +31,7 @@ public class fragment_temas extends Fragment {
     private JSONArray json_contenidos = null;
     private JSONArray json_temas = null;
     private ArrayList<item_contenido> contenidos;
-    private int id_tema;
+    private int id_curso;
     private View rootView;
 
     @Override
@@ -50,17 +50,17 @@ public class fragment_temas extends Fragment {
         cargarTemas ct = new cargarTemas(getActivity());
         ct.execute();
 
-        id_tema = savedInstanceState.getInt("id_tema");
+        id_curso = getArguments().getInt("id_curso");
 
         return rootView;
     }
 
 
-    public static fragment_temas newInstance(int id_tema) {
+    public static fragment_temas newInstance(int id_curso) {
         fragment_temas f = new fragment_temas();
 
         Bundle args = new Bundle();
-        args.putInt("id_tema", id_tema);
+        args.putInt("id_curso", id_curso);
         f.setArguments(args);
 
         return f;
@@ -95,7 +95,7 @@ public class fragment_temas extends Fragment {
             webservice wb = new webservice();
 
             //Guarda el string del JSON
-            String jsonString = wb.makeServiceCall("http://draw-lessons.com/api/?a=getTemasCurso&id=" + id_tema);
+            String jsonString = wb.makeServiceCall("http://draw-lessons.com/api/?a=getTemasCurso&id=" + id_curso);
 
             if (jsonString != null) {
                 try {
