@@ -1,7 +1,10 @@
 package com.draw_lessons.app.menus;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.draw_lessons.app.R;
+import com.draw_lessons.app.contenidos.webservice;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -18,6 +22,10 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class activity_login extends ActionBarActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -44,11 +52,13 @@ public class activity_login extends ActionBarActivity implements View.OnClickLis
 
     private SignInButton btnSignIn;
 
-    private String personGooglePlusProfile;
+    private String personUserID;
+    private String personGoogleID;
     private String personEmail;
     private String personName;
     private String personPhotoUrl;
     private String personCoverUrl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,16 +148,12 @@ public class activity_login extends ActionBarActivity implements View.OnClickLis
         // Get user's information
         getProfileInformation();
 
+        comprobarUsuario cu = new comprobarUsuario(this);
+        cu.execute();
+
         Toast.makeText(this, "Usuario " + personEmail + " conectado!", Toast.LENGTH_LONG).show();
 
-        Intent i = new Intent().setClass(activity_login.this, activity_homescreen.class);
-        i.putExtra("personID", personGooglePlusProfile);
-        i.putExtra("personName",personName);
-        i.putExtra("personEmail",personEmail);
-        i.putExtra("personCoverUrl",personCoverUrl);
-        i.putExtra("personPhotoUrl",personPhotoUrl);
-        startActivity(i);
-        finish();
+
     }
 
     /**
@@ -158,7 +164,7 @@ public class activity_login extends ActionBarActivity implements View.OnClickLis
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
                 Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 
-                personGooglePlusProfile = currentPerson.getUrl();
+                personGoogleID = currentPerson.getId();
                 personEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
                 if (currentPerson.hasName()) {
@@ -251,4 +257,88 @@ public class activity_login extends ActionBarActivity implements View.OnClickLis
         }
     }
 
+
+    private class comprobarUsuario extends AsyncTask<Void, Void, Void> {
+
+        private Context context;
+        private ProgressDialog pDialog;
+        private boolean comprobacion=false;
+
+        public comprobarUsuario(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+
+            pDialog = new ProgressDialog(this.context);
+            pDialog.setMessage("Cargando...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            //Creando instancia de la clase de webservice
+            webservice wb = new webservice();
+
+            //Guarda el string del JSON
+
+            String jsonString = wb.makeServiceCall("http://draw-lessons.com/api/?a=getExisteUsuario&id="+personGoogleID);
+            if (jsonString != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonString);
+                    JSONArray json_array = jsonObj.getJSONArray("Datos");
+                    JSONObject c = json_array.getJSONObject(0);
+                    int existe = c.getInt("Existe");
+                    if (existe < 1) {
+                        jsonString = wb.makeServiceCall("http://draw-lessons.com/api/?a=addUsuario&id="+personGoogleID);
+                        c = new JSONObject(jsonString);
+                       // json_array = jsonObj.getJSONArray("Datos");
+                      //  c = json_array.getJSONObject(0);
+                        int añadido = c.getInt("Datos");
+                        if (añadido > 0) {
+                            Log.d(TAG, "Usuario agregado a la base de datos.");
+                            comprobacion=true;
+                        }
+                    } else { comprobacion=true; }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("ServiceHandler", "Couldn't get any data from the url");
+            }
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (comprobacion) {
+                Intent i = new Intent().setClass(activity_login.this, activity_homescreen.class);
+                i.putExtra("personID", personGoogleID);
+                i.putExtra("personName",personName);
+                i.putExtra("personEmail",personEmail);
+                i.putExtra("personCoverUrl",personCoverUrl);
+                i.putExtra("personPhotoUrl",personPhotoUrl);
+                i.putExtra("personUserID", personUserID);
+                i.putExtra("personGoogleID", personGoogleID);
+                startActivity(i);
+                finish();
+             } else {
+                Toast.makeText(context, "Ha ocurrido un error", Toast.LENGTH_SHORT);
+            }
+
+        }
+
+    }
 }
