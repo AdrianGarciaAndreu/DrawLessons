@@ -53,7 +53,7 @@ public class activity_login extends ActionBarActivity implements View.OnClickLis
 
     private SignInButton btnSignIn;
 
-    private String personUserID;
+    private int personUserID;
     private String personGoogleID;
     private String personEmail;
     private String personName;
@@ -307,7 +307,13 @@ public class activity_login extends ActionBarActivity implements View.OnClickLis
                             comprobacion=true;
                         }
                     } else { comprobacion=true; }
-
+                    if (comprobacion) {
+                        jsonString = wb.makeServiceCall("http://draw-lessons.com/api/?a=getIdUsuario&id=" + personGoogleID);
+                        jsonObj = new JSONObject(jsonString);
+                        json_array = jsonObj.getJSONArray("Datos");
+                        c = json_array.getJSONObject(0);
+                        personUserID = c.getInt("id_usuario");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -326,7 +332,7 @@ public class activity_login extends ActionBarActivity implements View.OnClickLis
             }
             if (comprobacion) {
                 Intent i = new Intent().setClass(activity_login.this, activity_homescreen.class);
-                i.putExtra("personID", personGoogleID);
+                i.putExtra("personID", personUserID);
                 i.putExtra("personName",personName);
                 i.putExtra("personEmail",personEmail);
                 i.putExtra("personCoverUrl",personCoverUrl);

@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/tv_nombre"
+                android:id="@+id/tv_nombre_curso"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="New Text"
-                android:id="@+id/tv_descripcion"
+                android:id="@+id/tv_descripcion_curso"
                 android:textSize="20sp" />
         </LinearLayout>
 

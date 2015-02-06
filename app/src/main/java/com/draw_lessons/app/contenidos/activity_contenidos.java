@@ -52,6 +52,7 @@ public class activity_contenidos extends ActionBarActivity implements fragment_c
         TITLES = getResources().getStringArray(R.array.menu_navigation);
         setDatos(intent_principal);
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         contRecycle = (RecyclerView) findViewById(R.id.recycler_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
@@ -180,10 +181,10 @@ public class activity_contenidos extends ActionBarActivity implements fragment_c
     }
 
     @Override
-    public void onCursoSeleccionado(int id_tema) {
+    public void onCursoSeleccionado(int id_tema, String nom, String desc, String img) {
         FragmentTransaction ft;
         Fragment frag;
-        frag = new fragment_temas().newInstance(id_tema);
+        frag = new fragment_temas().newInstance(id_tema, nom, desc, img);
         ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
         ft.commit();
     }

@@ -2,7 +2,6 @@ package com.draw_lessons.app.menus;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,14 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.activity_draw;
 import com.draw_lessons.app.contenidos.activity_contenidos;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,8 +29,7 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
     ImageButton bt_new;
     ImageButton bt_open;
     ImageButton bt_content;
-    Intent i_draw;
-    Intent i_content;
+    Intent i_principal;
 
     CircleImageView img_user;
     TextView tv_nombre;
@@ -54,11 +49,7 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
         bt_new.setOnClickListener(this);
         bt_open.setOnClickListener(this);
         bt_content.setOnClickListener(this);
-
-        i_draw = new Intent(this, activity_draw.class);
-        i_draw.putExtras(getIntent());
-        i_content = new Intent(this, activity_contenidos.class);
-        i_content.putExtras(getIntent());
+        i_principal = getIntent();
         img_user = (CircleImageView) findViewById(R.id.img_user);
         tv_nombre = (TextView) findViewById(R.id.tv_nameuser);
         tv_email = (TextView) findViewById(R.id.tv_emailuser);
@@ -92,24 +83,25 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         int option = v.getId();
-
+        Intent i;
         switch (option) {
-
             case R.id.imageView_new:
-                startActivity(i_draw);
+                i = new Intent(this, activity_draw.class);
+                i.putExtras(i_principal);
+                startActivity(i);
                 finish();
                 break;
             case R.id.imageView_open:
-
-
-                Intent i = new Intent();
+                i = new Intent();
+                i.putExtras(i_principal);
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(i, "Escoge imágen"), 1);
-
                 break;
             case R.id.imageView_contents:
-                startActivity(i_content);
+                i = new Intent(this, activity_contenidos.class);
+                i.putExtras(i_principal);
+                startActivity(i);
                 finish();
                 break;
             case R.id.imageView_exit:
@@ -141,14 +133,14 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
             Uri u = data.getData();
 
 
-           // Toast.makeText(this, u.toString(), Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, u.toString(), Toast.LENGTH_LONG).show();
             Intent i = new Intent();
             String s = "open";
-            i.putExtra("open",s);
+            i.putExtra("open", s);
             String path;
 
-            String [] proj={MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(u, proj,  null, null, null);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(u, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             path = cursor.getString(column_index);
@@ -156,11 +148,10 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
 
             String[] a = path.split("t");
 
-            i.putExtra("file",path);
+            i.putExtra("file", path);
             i.setClass(activity_homescreen.this, activity_draw.class);
-
+            i.putExtras(getIntent());
             startActivity(i);
-
 
 
             finish();

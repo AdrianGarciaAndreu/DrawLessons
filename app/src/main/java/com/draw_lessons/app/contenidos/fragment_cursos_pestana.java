@@ -46,6 +46,8 @@ public class fragment_cursos_pestana extends Fragment {
 
     private OnCursoSeleccionadoListener listener;
 
+    private int id_usuario;
+
     public fragment_cursos_pestana() {
         // Required empty public constructor
     }
@@ -72,12 +74,15 @@ public class fragment_cursos_pestana extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         String pestaña = getArguments().getString("Pestaña");
+        id_usuario = getActivity().getIntent().getIntExtra("personID", 0);
 
         if (pestaña.equals("Propios")) {
-            consulta = "http://draw-lessons.com/api/?a=getCursosPropios&id=1";
+            consulta = "http://draw-lessons.com/api/?a=getCursosPropios&id=" + id_usuario;
+
 
         } else if (pestaña.equals("Favoritos")) {
-            consulta = "http://draw-lessons.com/api/?a=getCursosFavoritos&id=1";
+            consulta = "http://draw-lessons.com/api/?a=getCursosFavoritos&id=" + id_usuario;
+            Log.e("YEE", consulta);
 
         } else if (pestaña.equals("Todos")) {
             consulta = "http://draw-lessons.com/api/?a=getListadoCursos";
@@ -103,10 +108,12 @@ public class fragment_cursos_pestana extends Fragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         // do whatever
+                        int id = cursos.get(position).getId();
+                        String nom = cursos.get(position).getNombre();
+                        String desc = cursos.get(position).getDescripcion();
+                        String img = cursos.get(position).getImagen();
+                        listener.onCursoSeleccionado(id, nom, desc, img);
 
-                        listener.onCursoSeleccionado(cursos.get(position).getId());
-
-                        //Toast.makeText(getActivity(), cursos.get(position).getNombre().toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 })
@@ -198,6 +205,6 @@ public class fragment_cursos_pestana extends Fragment {
 
     //Interfaz comunicación con el acticity
     public interface OnCursoSeleccionadoListener {
-        public void onCursoSeleccionado(int id_tema);
+        public void onCursoSeleccionado(int id_tema, String nom, String desc, String img);
     }
 }

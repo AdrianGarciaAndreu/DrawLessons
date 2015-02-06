@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.draw_lessons.app.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +35,14 @@ public class fragment_temas extends Fragment {
     private JSONArray json_temas = null;
     private ArrayList<item_contenido> contenidos;
     private int id_curso;
+    private String nombre_curso;
+    private String descripcion_curso;
+    private String img_curso;
     private View rootView;
+
+    private TextView tv_nombre;
+    private TextView tv_descripcion;
+    private ImageView img;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,20 +57,36 @@ public class fragment_temas extends Fragment {
         rv_temas.setHasFixedSize(true);
         rv_temas.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        cargarTemas ct = new cargarTemas(getActivity());
-        ct.execute();
+        tv_nombre = (TextView) rootView.findViewById(R.id.tv_nombre_curso);
+        tv_descripcion = (TextView) rootView.findViewById(R.id.tv_descripcion_curso);
+        img = (ImageView) rootView.findViewById(R.id.img_curso);
+
 
         id_curso = getArguments().getInt("id_curso");
+        nombre_curso = getArguments().getString("nombre_curso");
+        descripcion_curso = getArguments().getString("descripcion_curso");
+        img_curso = getArguments().getString("img_curso");
+
+        tv_nombre.setText(nombre_curso);
+        tv_descripcion.setText(descripcion_curso);
+        Picasso.with(getActivity()).load(img_curso).placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_placeholder).fit().into(img);
+
+        cargarTemas ct = new cargarTemas(getActivity());
+        ct.execute();
 
         return rootView;
     }
 
 
-    public static fragment_temas newInstance(int id_curso) {
+    public static fragment_temas newInstance(int id_curso, String nom, String desc, String img) {
         fragment_temas f = new fragment_temas();
 
         Bundle args = new Bundle();
         args.putInt("id_curso", id_curso);
+        args.putString("nombre_curso", nom);
+        args.putString("descripcion_curso", desc);
+        args.putString("img_curso", img);
         f.setArguments(args);
 
         return f;

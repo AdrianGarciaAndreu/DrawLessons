@@ -24,6 +24,7 @@ public class fragment_cursos extends Fragment implements MaterialTabListener {
     ViewPager pager;
     ViewPagerAdapter adapter;
 
+    private int id_usuario;
     private View rootView;
 
     @Override
