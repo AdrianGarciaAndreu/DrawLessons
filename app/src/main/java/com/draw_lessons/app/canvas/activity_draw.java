@@ -348,12 +348,12 @@ public class activity_draw extends ActionBarActivity {
 
         this.i1 = menu.add(0, 7, Menu.NONE, R.string.accept);
         i1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        i1.setIcon(this.getResources().getDrawable(R.drawable.check));
+        i1.setIcon(this.getResources().getDrawable(R.drawable.ic_ok));
         i1.setVisible(false);
 
         this.i2 = menu.add(0, 8, Menu.NONE, R.string.dismiss);
         i2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        i2.setIcon(this.getResources().getDrawable(R.drawable.delete));
+        i2.setIcon(this.getResources().getDrawable(R.drawable.ic_cancel));
         i2.setVisible(false);
 
 
@@ -383,17 +383,17 @@ public class activity_draw extends ActionBarActivity {
 
 
         this.items[0] = menu.add(0, 0, menu.NONE, R.string.hand_made);
-        this.items[0].setIcon(R.drawable.hand);
+        this.items[0].setIcon(R.drawable.ic_pencil);
         this.items[0].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 
         this.items[1] = menu.add(0, 1, menu.NONE, R.string.ruler);
-        this.items[1].setIcon(R.drawable.ruler);
+        this.items[1].setIcon(R.drawable.ic_ruler);
         this.items[1].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[1].setVisible(false);
 
         this.items[2] = menu.add(0, 2, menu.NONE, R.string.eraser);
-        this.items[2].setIcon(R.drawable.eraser);
+        this.items[2].setIcon(R.drawable.ic_eraser);
         this.items[2].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         this.items[2].setVisible(false);
 
@@ -606,7 +606,7 @@ public class activity_draw extends ActionBarActivity {
             }
         });
 
-        b.setIcon(this.getResources().getDrawable(R.drawable.delete));
+        b.setIcon(this.getResources().getDrawable(R.drawable.ic_cancel));
         AlertDialog a = b.create();
         a.show();
 

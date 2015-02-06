@@ -21,7 +21,7 @@
     <item
         android:id="@+id/hand_tool"
         app:showAsAction="always"
-        android:title="@string/hand"
+        android:title="@string/hand_made"
         android:icon="@drawable/ic_pencil"/>
 
     <!-- Icono goma -->
