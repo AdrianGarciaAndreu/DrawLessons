@@ -1,17 +1,27 @@
 package com.draw_lessons.app.menus;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.activity_draw;
 import com.draw_lessons.app.contenidos.activity_contenidos;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 // Pantalla del menú principal desde donde se puede escoger entre
 // abrir nuevo proyecto, recuperar uno existente, entrar en la sección de activity_contenidos
@@ -25,6 +35,10 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
     ImageButton bt_content;
     Intent i_draw;
     Intent i_content;
+
+    CircleImageView img_user;
+    TextView tv_nombre;
+    TextView tv_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +56,14 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
         bt_content.setOnClickListener(this);
 
         i_draw = new Intent(this, activity_draw.class);
+        i_draw.putExtras(getIntent());
         i_content = new Intent(this, activity_contenidos.class);
+        i_content.putExtras(getIntent());
+        img_user = (CircleImageView) findViewById(R.id.img_user);
+        tv_nombre = (TextView) findViewById(R.id.tv_nameuser);
+        tv_email = (TextView) findViewById(R.id.tv_emailuser);
+
+        cargarDatosUsuario();
     }
 
 
@@ -76,11 +97,20 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
 
             case R.id.imageView_new:
                 startActivity(i_draw);
+                finish();
                 break;
             case R.id.imageView_open:
+
+
+                Intent i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(i, "Escoge imágen"), 1);
+
                 break;
             case R.id.imageView_contents:
                 startActivity(i_content);
+                finish();
                 break;
             case R.id.imageView_exit:
                 finish();
@@ -88,8 +118,64 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
 
         }
 
+
 //        if(v == bt_exit){
 //            finish();
 //        }
     }
+
+
+    /**
+     * Recibiendo resultado de
+     * la apertura de un proyecto
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK) {
+            Uri u = data.getData();
+
+
+           // Toast.makeText(this, u.toString(), Toast.LENGTH_LONG).show();
+            Intent i = new Intent();
+            String s = "open";
+            i.putExtra("open",s);
+            String path;
+
+            String [] proj={MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(u, proj,  null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            path = cursor.getString(column_index);
+            cursor.close();
+
+            String[] a = path.split("t");
+
+            i.putExtra("file",path);
+            i.setClass(activity_homescreen.this, activity_draw.class);
+
+            startActivity(i);
+
+
+
+            finish();
+
+
+        }
+
+    }
+
+    private void cargarDatosUsuario() {
+        tv_email.setText(getIntent().getStringExtra("personEmail"));
+        tv_nombre.setText(getIntent().getStringExtra("personName"));
+        Picasso.with(this).load(getIntent().getStringExtra("personPhotoUrl")).placeholder(R.drawable.user_photo)
+                .error(R.drawable.user_photo).fit().into(img_user);
+    }
+
+
 }

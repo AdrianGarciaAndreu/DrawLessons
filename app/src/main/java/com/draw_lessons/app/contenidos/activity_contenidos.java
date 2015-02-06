@@ -8,68 +8,96 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.draw_lessons.app.R;
+import com.draw_lessons.app.canvas.RecyclerItemClickListener;
 import com.draw_lessons.app.canvas.activity_draw;
+import com.draw_lessons.app.canvas.cnvAdapter;
+import com.draw_lessons.app.menus.activity_homescreen;
 
-public class activity_contenidos extends ActionBarActivity {
+public class activity_contenidos extends ActionBarActivity implements fragment_cursos_pestana.OnCursoSeleccionadoListener {
 
     DrawerLayout mDrawerLayout;
-    ListView mDrawerList;
+
     ActionBarDrawerToggle mDrawerToggle;
-    String[] mDrawerListItems;
-    FragmentManager fm;
-    Fragment frag;
-    FragmentTransaction ft;
+
+    RecyclerView.Adapter contAdapter;                        // Declaring Adapter For Recycler View
+    RecyclerView.LayoutManager contLayoutManager;
+    RecyclerView contRecycle;
+
+    Intent intent_principal;
+    String NAME;
+    String EMAIL;
+    String PROFILE;
+    String COVER;
+    String TITLES[];
+    int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contenidos);
+
+        intent_principal = getIntent();
+        TITLES = getResources().getStringArray(R.array.menu_navigation);
+        setDatos(intent_principal);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        contRecycle = (RecyclerView) findViewById(R.id.recycler_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        mDrawerList = (ListView) findViewById(android.R.id.list);
-        mDrawerListItems = getResources().getStringArray(R.array.drawer_list);
+        contRecycle.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerListItems));
 
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int editedPosition = position + 1;
-                Toast.makeText(activity_contenidos.this, "You selected item " + editedPosition, Toast.LENGTH_SHORT).show();
-                switch (position) {
-                    case 0:
-                        Intent i_cnv = new Intent(view.getContext(), activity_draw.class);
-                        startActivity(i_cnv);
-                        finish();
-                        break;
-                    case 1:
-                        //No hacemos nada ya qu estamos en la sección actual
-                        break;
-                    case 2:
+        contAdapter = new cnvAdapter(this, TITLES, ICONS, NAME, EMAIL, PROFILE, COVER);
 
-                        break;
-                    case 3:
-                        break;
-                }
+        contRecycle.setAdapter(contAdapter);
+        contLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
 
-            }
-        });
+        contRecycle.setLayoutManager(contLayoutManager);
+        contRecycle.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        // do whatever
+                        switch (position) {
+                            case 0:
+                                //Header no hacer nada
+                                break;
+                            case 1:
+                                //Menu principal
+                                Intent i_hs = new Intent(view.getContext(), activity_homescreen.class);
+                                i_hs.putExtras(intent_principal);
+                                startActivity(i_hs);
+                                finish();
+                                break;
+                            case 2:
+                                Intent i = new Intent(view.getContext(), activity_draw.class);
+                                i.putExtras(intent_principal);
+                                startActivity(i);
+                                finish();
+                                break;
+                            case 3:
+                                //No hacemos nada ya qu estamos en la sección actual
+                                break;
+                            case 4:
+                                finish();
+                                break;
+                        }
+
+                    }
+                })
+        );
+
         mDrawerToggle = new ActionBarDrawerToggle(this,
                 mDrawerLayout,
                 toolbar,
@@ -88,10 +116,23 @@ public class activity_contenidos extends ActionBarActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        mDrawerToggle.syncState();
+
+
+        cargarCursos();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, activity_homescreen.class);
+        i.putExtras(intent_principal);
+        startActivity(i);
+        finish();
     }
 
     @Override
@@ -110,10 +151,10 @@ public class activity_contenidos extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-                    mDrawerLayout.closeDrawer(mDrawerList);
+                if (mDrawerLayout.isDrawerOpen(contRecycle)) {
+                    mDrawerLayout.closeDrawer(contRecycle);
                 } else {
-                    mDrawerLayout.openDrawer(mDrawerList);
+                    mDrawerLayout.openDrawer(contRecycle);
                 }
                 return true;
             }
@@ -121,4 +162,31 @@ public class activity_contenidos extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    //Carga el fragment cursos
+    public void cargarCursos() {
+        FragmentTransaction ft;
+        Fragment frag;
+        frag = new fragment_cursos();
+        ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+        ft.commit();
+    }
+
+    private void setDatos(Intent i) {
+        NAME = i.getStringExtra("personName");
+        EMAIL = i.getStringExtra("personEmail");
+        PROFILE = i.getStringExtra("personPhotoUrl");
+        COVER = i.getStringExtra("personCoverUrl");
+    }
+
+    @Override
+    public void onCursoSeleccionado(int id_tema) {
+        FragmentTransaction ft;
+        Fragment frag;
+        frag = new fragment_temas().newInstance(id_tema);
+        ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+        ft.commit();
+    }
+
+
 }

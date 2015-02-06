@@ -34,7 +34,6 @@ public class tools {
                 canvas.drawing = true;
                 canvas.cnv = new Canvas(canvas.bmp);
 
-
                 canvas.p.setColor(0xFF000000);
                 canvas.p.setStrokeWidth(canvas.SIZE_SMALL);
 

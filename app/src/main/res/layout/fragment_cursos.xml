@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.draw_lessons.contenidos.activity_cursos">
+
+    <it.neokree.materialtabs.MaterialTabHost
+        android:id="@+id/tabHost_cursos"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/toolbar"
+        app:accentColor="@color/primaryDark"
+        app:primaryColor="@color/primary" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager_cursos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabHost_cursos" />
+
+</RelativeLayout>
