@@ -591,7 +591,10 @@ public class activity_draw extends ActionBarActivity {
 
     }
 
-
+	@Override
+	public void onBackPressed() {
+		this.CloseDialog();
+	}
 
 
     @Override
@@ -608,10 +611,7 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
-    @Override
-    public void onBackPressed() {
-        this.CloseDialog();
-    }
+
 
 
 

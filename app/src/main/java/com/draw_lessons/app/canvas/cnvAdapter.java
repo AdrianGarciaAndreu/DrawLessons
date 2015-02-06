@@ -57,8 +57,7 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
 
 			Name = (TextView) itemView.findViewById(R.id.name);         // Creating Text View object from header.xml for name
 			email = (TextView) itemView.findViewById(R.id.email);       // Creating Text View object from header.xml for email
-			profile = (ImageView) itemView.findViewById(R.id.cnvCircleView);
-			back = (RelativeLayout)itemView.findViewById(R.id.header_back);// Creating Image view object from header.xml for profile pic
+			profile = (ImageView) itemView.findViewById(R.id.circleView);
 			Holderid = 0;                                                // Setting holder id = 0 as the object being populated are of type header view
 		}
 	}

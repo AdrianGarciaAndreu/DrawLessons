@@ -4,6 +4,8 @@ package com.draw_lessons.app.contenidos;
  * Created by Aleix on 2015-02-01.
  */
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.view.View;
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.RecyclerItemClickListener;
 import com.draw_lessons.app.canvas.activity_draw;
+import com.draw_lessons.app.menus.activity_homescreen;
 
 public class activity_contenidos extends ActionBarActivity {
 
@@ -35,7 +38,7 @@ public class activity_contenidos extends ActionBarActivity {
 
     String NAME = "Aleix Casanova";
     String EMAIL = "aleix.casanova@gmail.com";
-    int PROFILE = R.drawable.icondl;
+    int PROFILE = R.drawable.photo;
     String TITLES[] = {"Canvas","Contenidos"};
     int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
 
@@ -112,7 +115,35 @@ public class activity_contenidos extends ActionBarActivity {
 
        cargarCursos();
     }
+	public void CloseDialog(){
+		AlertDialog.Builder b = new AlertDialog.Builder(this);
+		b.setTitle(R.string.exit_title);
+		b.setMessage(R.string.exit_msg);
+		b.setCancelable(true);
 
+		b.setPositiveButton(R.string.exit_accept, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Intent i = new Intent().setClass(getBaseContext(), activity_homescreen.class);
+				startActivity(i);
+				finish();
+			}
+		});
+
+		b.setNegativeButton(R.string.exit_cancel, null);
+
+		b.setIcon(this.getResources().getDrawable(R.drawable.delete));
+		AlertDialog a = b.create();
+		a.show();
+
+
+
+	}
+
+	@Override
+	public void onBackPressed() {
+		this.CloseDialog();
+	}
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
