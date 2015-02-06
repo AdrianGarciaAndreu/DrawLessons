@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -38,14 +37,10 @@ public class activity_contenidos extends ActionBarActivity {
 
     String NAME = "Aleix Casanova";
     String EMAIL = "aleix.casanova@gmail.com";
+    String IMGURL = "https://lh4.googleusercontent.com/-gDhD-uCt2oQ/AAAAAAAAAAI/AAAAAAAABCQ/j-5tVA7nTJQ/s120-c/photo.jpg";
     int PROFILE = R.drawable.photo;
     String TITLES[] = {"Canvas","Contenidos"};
     int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
-
-    FragmentManager fm;
-    Fragment frag;
-    FragmentTransaction ft;
-
 
 
     @Override
