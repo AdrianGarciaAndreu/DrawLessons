@@ -48,7 +48,7 @@ public class activity_draw extends ActionBarActivity {
     String PROFILE;
     String COVER;
     String TITLES[];
-    int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
+    int ICONS[] = {R.drawable.ic_home, R.drawable.ic_screendraw, R.drawable.ic_books, R.drawable.ic_error};
 
     public boolean toolClicked = true;
     public int ClickedID = 0;
