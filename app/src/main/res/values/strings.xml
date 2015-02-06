@@ -5,8 +5,6 @@
     <string name="action_settings">Ajustes</string>
     <string name="title_activity_principal_menu">Menu</string>
 
-
-
     <!-- Canvas -->
     <string name="drawer_open">Drawer Opened</string>
     <string name="drawer_close">Drawer Closed</string>
@@ -26,24 +24,21 @@
     <string name="clean">Limpiar</string>
     <string name="save">Guardar</string>
     <string name="undo">Deshacer</string>
-    <string name="space">      </string>
-
-
-
+    <string name="space"></string>
     <string name="save_title">Guardar imágen</string>
     <string name="save_toast">Imágen guardada</string>
     <string name="save_msg">¿Quieres guardar la imágen?, introduzca un nombre.</string>
     <string name="cancel">Cancelar</string>
-
     <string name="exit_title">Salir</string>
     <string name="exit_msg">"¿Desea salir del lienzo?"</string>
     <string name="exit_accept">"Salir"</string>
     <string name="exit_neutral">"Guardar y salir"</string>
     <string name="exit_cancel">"Cancelar"</string>
-
-
-
     <string name="title_activity_open_file">open_file</string>
-    
+
+
+    <!-- Login -->
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
 
 </resources>

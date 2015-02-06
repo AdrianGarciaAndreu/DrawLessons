@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Window;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.tutorial.activity_tutorial;
@@ -30,11 +29,6 @@ public class activity_splash extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Orientación de la pantalla
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        // Oculta el title bar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(R.layout.activity_splash);
 
         this.loadSignIn();
@@ -56,10 +50,9 @@ public class activity_splash extends Activity {
 
                 } else {// Si el user está logeado salta al menú principal.
 
-                    Intent mainIntent = new Intent().setClass(
-                            activity_splash.this, activity_homescreen.class);
+                    Intent mainIntent = new Intent().setClass(activity_splash.this, activity_login.class);
                     startActivity(mainIntent);
-
+                    finish();
                 }
 
 
@@ -78,7 +71,6 @@ public class activity_splash extends Activity {
     // Comprueba si el usuario se ha logeado para no volver a mostrar el activity_tutorial.
     // El método da valor a la variable isSignIn. 0 = no logeado y 1 = logeado.
     public void loadSignIn() {
-
         SharedPreferences preferences = getSharedPreferences("info", Context.MODE_PRIVATE);
         isSignIn = preferences.getInt("singIn", 0);
     }

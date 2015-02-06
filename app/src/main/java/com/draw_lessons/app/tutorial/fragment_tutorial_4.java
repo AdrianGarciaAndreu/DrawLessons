@@ -16,8 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.draw_lessons.app.menus.activity_homescreen;
 import com.draw_lessons.app.R;
+import com.draw_lessons.app.menus.activity_login;
 
 
 // Última pantalla del activity_tutorial de bienvenida donde se realiza el login de Google.
@@ -52,8 +52,9 @@ public class fragment_tutorial_4 extends Fragment implements View.OnClickListene
             // Si el usuario ha pulsado el botón, guardamos el dato.
             this.saveSingInGoogle();
             // Pasamos a la pantalla principal.
-            Intent intent = new Intent(getActivity(), activity_homescreen.class);
+            Intent intent = new Intent(getActivity(), activity_login.class);
             startActivity(intent);
+
             //para que una vez en la pantalla principal no vuelva al activity_tutorial.
             getActivity().finish();
         }

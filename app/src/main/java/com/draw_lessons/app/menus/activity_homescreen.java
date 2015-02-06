@@ -1,6 +1,5 @@
 package com.draw_lessons.app.menus;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,12 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.activity_draw;
 import com.draw_lessons.app.contenidos.activity_contenidos;
+import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 
 // Pantalla del menú principal desde donde se puede escoger entre
 // abrir nuevo proyecto, recuperar uno existente, entrar en la sección de activity_contenidos
@@ -29,6 +31,10 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
     ImageButton bt_content;
     Intent i_draw;
     Intent i_content;
+
+    CircleImageView img_user;
+    TextView tv_nombre;
+    TextView tv_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,12 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
 
         i_draw = new Intent(this, activity_draw.class);
         i_content = new Intent(this, activity_contenidos.class);
+
+        img_user = (CircleImageView) findViewById(R.id.img_user);
+        tv_nombre = (TextView) findViewById(R.id.tv_nameuser);
+        tv_email = (TextView) findViewById(R.id.tv_emailuser);
+
+        cargarDatosUsuario();
     }
 
 
@@ -128,6 +140,12 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
 
     }
 
+    private void cargarDatosUsuario() {
+        tv_email.setText(getIntent().getStringExtra("personEmail"));
+        tv_nombre.setText(getIntent().getStringExtra("personName"));
+        Picasso.with(this).load(getIntent().getStringExtra("personPhotoUrl")).placeholder(R.drawable.user_photo)
+                .error(R.drawable.user_photo).fit().into(img_user);
+    }
 
 
 

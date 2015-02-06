@@ -59,7 +59,7 @@ public class adapter_curso extends RecyclerView.Adapter<adapter_curso.MyViewHold
         String img_url = cursosDataSet.get(listPosition).getImagen();
 
         Picasso.with(context).load(img_url).placeholder(R.drawable.ic_placeholder)
-                .error(R.drawable.ic_placeholder).into(img_curso);
+                .error(R.drawable.ic_placeholder).fit().into(img_curso);
     }
 
     @Override
