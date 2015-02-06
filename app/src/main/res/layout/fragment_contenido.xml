@@ -39,14 +39,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="70"
+                    android:layout_weight="80"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                     android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:layout_weight="30"
+                    android:layout_weight="20"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -60,7 +60,7 @@
                             android:layout_height="wrap_content"
                             android:text="20 min"
                             android:id="@+id/tv_duracion_contenido"
-                            android:layout_weight="20"
+                            android:layout_weight="80"
                             android:gravity="center_horizontal" />
 
                         <TextView
@@ -68,7 +68,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="http://www.draw-lessons.com"
-                            android:layout_weight="80"
+                            android:layout_weight="20"
                             android:gravity="center_horizontal" />
 
                     </LinearLayout>
@@ -78,13 +78,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_placeholder" />
+                        android:src="@drawable/ic_placeholder"
+                        android:layout_weight="50"
+                        android:layout_margin="10dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:weightSum="100">
 
                         <ImageView
@@ -92,14 +94,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_placeholder_youtube"
-                            android:layout_weight="40" />
+                            android:layout_weight="40"
+                            android:layout_gravity="center" />
 
                         <TextView
                             android:id="@+id/tv_nombre_video_contenido"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Dzeko &amp; Torres - Alarm (Official Music Video)"
-                            android:layout_weight="60" />
+                            android:layout_weight="60"
+                            android:gravity="center"
+                            android:layout_gravity="center" />
 
                     </LinearLayout>
 
