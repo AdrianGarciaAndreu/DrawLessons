@@ -127,14 +127,24 @@ public class activity_contenidos extends ActionBarActivity implements fragment_c
 
         cargarCursos();
     }
-
-    @Override
+	@Override
+	public void onBackPressed(){
+		if (getSupportFragmentManager().getBackStackEntryCount() == 2){
+			Intent i = new Intent(this, activity_homescreen.class);
+			i.putExtras(intent_principal);
+			startActivity(i);
+			finish();		}
+		else {
+			super.onBackPressed();
+		}
+	}
+    /*@Override
     public void onBackPressed() {
         Intent i = new Intent(this, activity_homescreen.class);
         i.putExtras(intent_principal);
         startActivity(i);
         finish();
-    }
+    }*/
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -170,6 +180,7 @@ public class activity_contenidos extends ActionBarActivity implements fragment_c
         Fragment frag;
         frag = new fragment_cursos();
         ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+		ft.addToBackStack(frag.getClass().getName());
         ft.commit();
     }
 
@@ -186,7 +197,8 @@ public class activity_contenidos extends ActionBarActivity implements fragment_c
         Fragment frag;
         frag = new fragment_temas().newInstance(id_tema, nom, desc, img);
         ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
-        ft.commit();
+		ft.addToBackStack(frag.getClass().getName());
+		ft.commit();
     }
 
 
@@ -196,6 +208,9 @@ public class activity_contenidos extends ActionBarActivity implements fragment_c
         Fragment frag;
         frag = new fragment_contenido().newInstance(nom, duracion, url, texto, img, video);
         ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
-        ft.commit();
+		ft.addToBackStack(frag.getClass().getName());
+		ft.commit();
     }
+
+
 }
