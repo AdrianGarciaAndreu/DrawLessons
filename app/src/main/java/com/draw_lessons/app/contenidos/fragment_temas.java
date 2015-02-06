@@ -29,203 +29,212 @@ import java.util.List;
 
 public class fragment_temas extends Fragment {
 
-    RecyclerView.Adapter rvAdapter;
-    List<adapter_tema.Section> sections = new ArrayList<adapter_tema.Section>();
-    private RecyclerView rv_temas;
-    private ProgressDialog pDialog;
-    private JSONArray json_contenidos = null;
-    private JSONArray json_temas = null;
-    private ArrayList<item_contenido> contenidos;
-    private int id_curso;
-    private String nombre_curso;
-    private String descripcion_curso;
-    private String img_curso;
-    private View rootView;
+	RecyclerView.Adapter rvAdapter;
+	List<adapter_tema.Section> sections = new ArrayList<adapter_tema.Section>();
+	private RecyclerView rv_temas;
+	private RecyclerView.LayoutManager rv_temasLayoutMAnager;
+	private ProgressDialog pDialog;
+	private JSONArray json_contenidos = null;
+	private JSONArray json_temas = null;
+	private ArrayList<item_contenido> contenidos;
+	private int id_curso;
+	private String nombre_curso;
+	private String descripcion_curso;
+	private String img_curso;
+	private View rootView;
+	ArrayList<item_contenido> contenidosB;
+	private OnContenidoSeleccionadoListener listener;
+	private int posiciones;
+	private int total_items;
+	private TextView tv_nombre;
+	private TextView tv_descripcion;
+	private ImageView img;
 
-    private OnContenidoSeleccionadoListener listener;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    private TextView tv_nombre;
-    private TextView tv_descripcion;
-    private ImageView img;
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		rootView = inflater.inflate(R.layout.fragment_temas, container, false);
+		rv_temas = (RecyclerView) rootView.findViewById(R.id.recyler_view_temas);
+		rv_temas.setHasFixedSize(true);
+		rv_temasLayoutMAnager = new LinearLayoutManager(getActivity());
+		rv_temas.setLayoutManager(rv_temasLayoutMAnager);
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_temas, container, false);
-        rv_temas = (RecyclerView) rootView.findViewById(R.id.recyler_view_temas);
-        rv_temas.setHasFixedSize(true);
-        rv_temas.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        tv_nombre = (TextView) rootView.findViewById(R.id.tv_nombre_curso);
-        tv_descripcion = (TextView) rootView.findViewById(R.id.tv_descripcion_curso);
-        img = (ImageView) rootView.findViewById(R.id.img_curso);
-
-
-        id_curso = getArguments().getInt("id_curso");
-        nombre_curso = getArguments().getString("nombre_curso");
-        descripcion_curso = getArguments().getString("descripcion_curso");
-        img_curso = getArguments().getString("img_curso");
-
-        tv_nombre.setText(nombre_curso);
-        tv_descripcion.setText(descripcion_curso);
-        Picasso.with(getActivity()).load(img_curso).placeholder(R.drawable.ic_placeholder)
-                .error(R.drawable.ic_placeholder).fit().into(img);
+		tv_nombre = (TextView) rootView.findViewById(R.id.tv_nombre_curso);
+		tv_descripcion = (TextView) rootView.findViewById(R.id.tv_descripcion_curso);
+		img = (ImageView) rootView.findViewById(R.id.img_curso);
 
 
-        rv_temas.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        // do whatever
-                        if(view.getId() == R.id.item_contenido){
-                            position = position - sections.size();
-                            String nom = contenidos.get(position).getNombre_contenido();
-                            int duracion = contenidos.get(position).getDuracion_contenido();
-                            String url = contenidos.get(position).getEnlace_contenido();
-                            String texto = contenidos.get(position).getTexto_contenido();
-                            String img = contenidos.get(position).getImagen_contenido();
-                            String video = contenidos.get(position).getVideo_contenido();
-                            listener.onContenidoSeleccionado(nom, duracion, url, texto, img, video);
-                        }
-                    }
-                })
-        );
+		id_curso = getArguments().getInt("id_curso");
+		nombre_curso = getArguments().getString("nombre_curso");
+		descripcion_curso = getArguments().getString("descripcion_curso");
+		img_curso = getArguments().getString("img_curso");
 
-        cargarTemas ct = new cargarTemas(getActivity());
-        ct.execute();
-
-        return rootView;
-    }
+		tv_nombre.setText(nombre_curso);
+		tv_descripcion.setText(descripcion_curso);
+		Picasso.with(getActivity()).load(img_curso).placeholder(R.drawable.ic_placeholder)
+				.error(R.drawable.ic_placeholder).fit().into(img);
 
 
-    public static fragment_temas newInstance(int id_curso, String nom, String desc, String img) {
-        fragment_temas f = new fragment_temas();
+		rv_temas.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+					@Override
+					public void onItemClick(View view, int position) {
+						/*// do whatever
+						posiciones = total_items - sections.size();
 
-        Bundle args = new Bundle();
-        args.putInt("id_curso", id_curso);
-        args.putString("nombre_curso", nom);
-        args.putString("descripcion_curso", desc);
-        args.putString("img_curso", img);
-        f.setArguments(args);
+						for (int p = 0; contenidos.size() < p ; p++) {
+							contenidosB = new ArrayList<item_contenido>();
+							contenidosB.add(position,contenidos.get(p));
+						}
+						if (view.getId() == R.id.item_contenido) {*/
 
-        return f;
-    }
+						String nom = contenidos.get(position).getNombre_contenido();
+						int duracion = contenidos.get(position).getDuracion_contenido();
+						String url = contenidos.get(position).getEnlace_contenido();
+						String texto = contenidos.get(position).getTexto_contenido();
+						String img = contenidos.get(position).getImagen_contenido();
+						String video = contenidos.get(position).getVideo_contenido();
+						listener.onContenidoSeleccionado(nom, duracion, url, texto, img, video);
+						//}
+					}
+				})
+		);
+
+		cargarTemas ct = new cargarTemas(getActivity());
+		ct.execute();
+
+		return rootView;
+	}
 
 
-    private class cargarTemas extends AsyncTask<Void, Void, Void> {
+	public static fragment_temas newInstance(int id_curso, String nom, String desc, String img) {
+		fragment_temas f = new fragment_temas();
 
-        private Context context;
+		Bundle args = new Bundle();
+		args.putInt("id_curso", id_curso);
+		args.putString("nombre_curso", nom);
+		args.putString("descripcion_curso", desc);
+		args.putString("img_curso", img);
+		f.setArguments(args);
 
-        public cargarTemas(Context context) {
-            this.context = context;
-        }
+		return f;
+	}
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Showing progress dialog
 
-            pDialog = new ProgressDialog(this.context);
-            pDialog.setMessage("Cargando...");
-            pDialog.setCancelable(false);
-            pDialog.show();
+	private class cargarTemas extends AsyncTask<Void, Void, Void> {
 
-        }
+		private Context context;
 
-        @Override
-        protected Void doInBackground(Void... arg0) {
+		public cargarTemas(Context context) {
+			this.context = context;
+		}
 
-            contenidos = new ArrayList<item_contenido>();
-            //Creando instancia de la clase de webservice
-            webservice wb = new webservice();
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			// Showing progress dialog
 
-            //Guarda el string del JSON
-            String jsonString = wb.makeServiceCall("http://draw-lessons.com/api/?a=getTemasCurso&id=" + id_curso);
+			pDialog = new ProgressDialog(this.context);
+			pDialog.setMessage("Cargando...");
+			pDialog.setCancelable(false);
+			pDialog.show();
 
-            if (jsonString != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonString);
+		}
 
-                    //Recogiendo el nodo del array JSON
-                    json_temas = jsonObj.getJSONArray("Datos");
+		@Override
+		protected Void doInBackground(Void... arg0) {
 
-                    int p = 0;
-                    //Recorriendo todos los objetos del JSON
-                    for (int i = 0; i < json_temas.length(); i++) {
-                        JSONObject c = json_temas.getJSONObject(i);
+			contenidos = new ArrayList<item_contenido>();
+			//Creando instancia de la clase de webservice
+			webservice wb = new webservice();
 
-                        int id_tema = c.getInt("id_tema");
-                        String nombre_tema = c.getString("nombre_tema");
-                        sections.add(new adapter_tema.Section(p, nombre_tema));
-                        String consulta = "http://draw-lessons.com/api/?a=getContenidosTema&id=";
-                        consulta += id_tema;
-                        jsonString = wb.makeServiceCall(consulta);
+			//Guarda el string del JSON
+			String jsonString = wb.makeServiceCall("http://draw-lessons.com/api/?a=getTemasCurso&id=" + id_curso);
 
-                        JSONObject jsonObj2 = new JSONObject(jsonString);
-                        json_contenidos = jsonObj2.getJSONArray("Datos");
-                        for (int j = 0; j < json_contenidos.length(); j++) {
-                            JSONObject d = json_contenidos.getJSONObject(j);
+			if (jsonString != null) {
+				try {
+					JSONObject jsonObj = new JSONObject(jsonString);
 
-                            int id_contenido = d.getInt("id_contenido");
+					//Recogiendo el nodo del array JSON
+					json_temas = jsonObj.getJSONArray("Datos");
 
-                            String nombre_contenido = d.getString("nombre_contenido");
-                            String texto_contenido = d.getString("texto_contenido");
-                            String imagen_contenido = d.getString("imagen_contenido");
-                            String video_contenido = d.getString("video_contenido");
-                            String enlace_contenido = d.getString("enlace_contenido");
-                            int duracion_contenido = d.getInt("duracion_contenido");
+					int p = 0;
+					//Recorriendo todos los objetos del JSON
+					for (int i = 0; i < json_temas.length(); i++) {
+						JSONObject c = json_temas.getJSONObject(i);
 
-                            item_contenido item = new item_contenido(id_contenido, nombre_contenido, texto_contenido, imagen_contenido, video_contenido, enlace_contenido, duracion_contenido);
-                            contenidos.add(item);
-                        }
-                        p += json_contenidos.length();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.e("ServiceHandler", "Couldn't get any data from the url");
-            }
+						int id_tema = c.getInt("id_tema");
+						String nombre_tema = c.getString("nombre_tema");
+						sections.add(new adapter_tema.Section(p, nombre_tema));
+						String consulta = "http://draw-lessons.com/api/?a=getContenidosTema&id=";
+						consulta += id_tema;
+						jsonString = wb.makeServiceCall(consulta);
 
-            return null;
-        }
+						JSONObject jsonObj2 = new JSONObject(jsonString);
+						json_contenidos = jsonObj2.getJSONArray("Datos");
+						for (int j = 0; j < json_contenidos.length(); j++) {
+							JSONObject d = json_contenidos.getJSONObject(j);
 
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            // Dismiss the progress dialog
-            if (pDialog.isShowing()) {
-                pDialog.dismiss();
-            }
+							int id_contenido = d.getInt("id_contenido");
 
-            rvAdapter = new adapter_contenido(contenidos);
+							String nombre_contenido = d.getString("nombre_contenido");
+							String texto_contenido = d.getString("texto_contenido");
+							String imagen_contenido = d.getString("imagen_contenido");
+							String video_contenido = d.getString("video_contenido");
+							String enlace_contenido = d.getString("enlace_contenido");
+							int duracion_contenido = d.getInt("duracion_contenido");
 
-            //Add your adapter to the sectionAdapter
-            adapter_tema.Section[] dummy = new adapter_tema.Section[sections.size()];
-            adapter_tema mSectionedAdapter = new adapter_tema(context, R.layout.item_tema, R.id.section_text, rvAdapter);
-            mSectionedAdapter.setSections(sections.toArray(dummy));
+							item_contenido item = new item_contenido(id_contenido, nombre_contenido, texto_contenido, imagen_contenido, video_contenido, enlace_contenido, duracion_contenido);
+							contenidos.add(item);
+						}
+						p += json_contenidos.length();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			} else {
+				Log.e("ServiceHandler", "Couldn't get any data from the url");
+			}
 
-            //Apply this adapter to the RecyclerView
-            rv_temas.setAdapter(mSectionedAdapter);
-        }
-    }
+			return null;
+		}
 
-    //Interfaz comunicación con el acticity
-    public interface OnContenidoSeleccionadoListener {
-        public void onContenidoSeleccionado(String nom, int duracion, String url, String texto, String img, String video);
-    }
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			// Dismiss the progress dialog
+			if (pDialog.isShowing()) {
+				pDialog.dismiss();
+			}
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            listener = (OnContenidoSeleccionadoListener) activity;
-        } catch (ClassCastException e) {
-        }
-    }
+			rvAdapter = new adapter_contenido(contenidos);
+
+			//Add your adapter to the sectionAdapter
+			adapter_tema.Section[] dummy = new adapter_tema.Section[sections.size()];
+			adapter_tema mSectionedAdapter = new adapter_tema(context, R.layout.item_tema, R.id.section_text, rvAdapter);
+			mSectionedAdapter.setSections(sections.toArray(dummy));
+
+			//Apply this adapter to the RecyclerView
+			rv_temas.setAdapter(rvAdapter);
+		}
+	}
+
+	//Interfaz comunicación con el acticity
+	public interface OnContenidoSeleccionadoListener {
+		public void onContenidoSeleccionado(String nom, int duracion, String url, String texto, String img, String video);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			listener = (OnContenidoSeleccionadoListener) activity;
+		} catch (ClassCastException e) {
+		}
+	}
 
 }
