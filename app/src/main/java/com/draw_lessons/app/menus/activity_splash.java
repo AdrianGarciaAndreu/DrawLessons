@@ -1,3 +1,4 @@
+
 package com.draw_lessons.app.menus;
 
 import android.app.Activity;
@@ -51,6 +52,10 @@ public class activity_splash extends Activity {
                 } else {// Si el user está logeado salta al menú principal.
 
                     Intent mainIntent = new Intent().setClass(activity_splash.this, activity_login.class);
+                    //
+                    //
+                    //
+                    //Intent mainIntent = new Intent().setClass(activity_splash.this, activity_homescreen.class);
                     startActivity(mainIntent);
                     finish();
                 }

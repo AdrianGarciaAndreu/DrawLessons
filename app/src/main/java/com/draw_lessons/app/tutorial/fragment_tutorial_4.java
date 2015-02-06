@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.draw_lessons.app.R;
+import com.draw_lessons.app.menus.activity_homescreen;
 import com.draw_lessons.app.menus.activity_login;
 
 
@@ -43,6 +44,12 @@ public class fragment_tutorial_4 extends Fragment implements View.OnClickListene
     }
 
 
+
+
+
+    /*
+
+
     //Lo que hace el botón de tutorial entendido
     @Override
     public void onClick(View v) {
@@ -55,6 +62,34 @@ public class fragment_tutorial_4 extends Fragment implements View.OnClickListene
             Intent intent = new Intent(getActivity(), activity_login.class);
             startActivity(intent);
 
+            //para que una vez en la pantalla principal no vuelva al activity_tutorial.
+            getActivity().finish();
+        }
+
+
+    }
+
+    */
+
+
+    /**
+     * Reemplazado por el sign de google por fallos
+     * @param v
+     */
+
+
+
+    //Lo que hace el botón de tutorial entendido
+    @Override
+    public void onClick(View v) {
+
+        if (v == understood) {
+
+            // Si el usuario ha pulsado el botón, guardamos el dato.
+            this.saveSingInGoogle();
+            // Pasamos a la pantalla principal.
+            Intent intent = new Intent(getActivity(), activity_homescreen.class);
+            startActivity(intent);
             //para que una vez en la pantalla principal no vuelva al activity_tutorial.
             getActivity().finish();
         }

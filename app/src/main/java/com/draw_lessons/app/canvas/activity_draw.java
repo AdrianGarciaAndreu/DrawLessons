@@ -32,7 +32,7 @@ import java.io.File;
 public class activity_draw extends ActionBarActivity {
 
     protected LinearLayout ll1;
-    private canvas canvas;
+    public static canvas canvas;
     private MenuItem items[];
 
     DrawerLayout cnvDrawerLayout;
@@ -61,6 +61,9 @@ public class activity_draw extends ActionBarActivity {
 
     public static MenuItem distance;
     public static MenuItem x1, y1, x2, y2;
+
+    private String opened=null;
+    private String filePath=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +144,15 @@ public class activity_draw extends ActionBarActivity {
         cnvDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         cnvDrawerToggle.syncState();
 
+         /*
+          si el menu abre un archivo
+         */
+            Intent i = this.getIntent();
+                this.opened =  i.getStringExtra("open");
+                this.filePath = i.getStringExtra("file");
+
+
+
         this.createDrawer();
 
         this.items = new MenuItem[6];
@@ -153,7 +165,12 @@ public class activity_draw extends ActionBarActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         this.et1.setLayoutParams(lp);
 
+
+
     }
+
+
+
 
     private void setDatos(Intent i) {
         NAME = i.getStringExtra("personName");
@@ -222,6 +239,14 @@ public class activity_draw extends ActionBarActivity {
      */
     public void createDrawer() {
 
+        if (this.opened != null) {
+            if (this.opened.equals("open")) {
+                canvas.opened = "open";
+                File f = new File(this.filePath);
+                canvas.openFile = f;
+                Toast.makeText(this, f.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+            }
+        }
         int x = this.getWindowManager().getDefaultDisplay().getWidth(); //resolucion del ancho de la pantalla
         int y = this.getWindowManager().getDefaultDisplay().getHeight(); // resolucion del alto de la pantalla
 
@@ -232,7 +257,7 @@ public class activity_draw extends ActionBarActivity {
 
         this.canvas.setResX(x);
         this.canvas.setResY(y);
-        this.canvas.prepareCancas();
+        this.canvas.prepareCanvas();
         this.canvas.setStrokeSize(canvas.SIZE_SMALL);
 
         ////////////
@@ -651,6 +676,13 @@ public class activity_draw extends ActionBarActivity {
         String s = String.valueOf(a) + ", y2";
         activity_draw.y2.setTitle(s);
     }
+
+
+    public static canvas getCanvas(){
+
+        return activity_draw.canvas;
+    }
+
 
 
 }

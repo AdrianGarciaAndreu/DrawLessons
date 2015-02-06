@@ -3,18 +3,21 @@ package com.draw_lessons.app.canvas;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Path.Direction;
 import android.graphics.Region;
+import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -98,6 +101,10 @@ public class canvas extends View{
 
     private float dist = 0.00f;
 
+    public static String opened=null;
+    public static File openFile=null;
+    private Bitmap bMutable = null;
+
 
 
     /**
@@ -116,7 +123,7 @@ public class canvas extends View{
      * Metodo para preparar el Cnavas, el bitmap y el Objeto Paint
      * para poder dibujar sobre el View
      */
-    public void prepareCancas(){
+    public void prepareCanvas(){
 
         //crea el bitmap
         Config  bcfg = Config.RGB_565 ;
@@ -130,8 +137,25 @@ public class canvas extends View{
         this.p.setStrokeCap(Paint.Cap.ROUND);
         this.p.setColor(this.getResources().getColor(R.color.stroke_color));
 
+
         this.cnv = new Canvas(this.bmp);
         this.cnv.drawColor(this.getResources().getColor(R.color.back_color));
+
+        if (this.opened !=null){
+
+            if(this.opened.equals("open")) {
+                File f = this.openFile;
+                if (f.exists()) {
+                    String s = f.getAbsolutePath();
+                    this.bMutable = BitmapFactory.decodeFile(s);
+                    this.bMutable = this.bMutable.createScaledBitmap(this.bMutable,this.resX,this.resY,false);
+                    this.bmp = this.bMutable.copy(Config.ARGB_4444, true);
+                    //this.bmp = Bitmap.createScaledBitmap(this.bmp,this.resX,this.resY,true);
+                    this.cnv = new Canvas(this.bmp);
+                    this.opened = null;
+                }
+            }
+        }
 
         this.mPa = new Path();
         this.mPa.moveTo(0, 0);
@@ -155,6 +179,7 @@ public class canvas extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(this.bmp, 0, 0, this.p);
+
 
         if (this.rulerLayer==true){
             canvas.drawBitmap(this.rulerBmp, 0, 0,this.p);
@@ -939,7 +964,12 @@ public class canvas extends View{
         activity_draw.i1.setVisible(false);
         activity_draw.i2.setVisible(false);
 
-        this.cnv.drawColor(0xFFFFFFFF);
+        if (this.openFile == null) {
+            this.cnv.drawColor(0xFFFFFFFF);
+        }else{
+            this.bmp = this.bMutable.copy(Config.ARGB_4444,true);
+            this.cnv = new Canvas(this.bmp);
+        }
         this.Trazos = new ArrayList<Path>();
         this.invalidate();
 
@@ -968,8 +998,15 @@ public class canvas extends View{
 
         this.p.setStrokeWidth(SIZE_SMALL);
 
-
+        if (this.openFile == null) {
         this.cnv.drawColor(this.getResources().getColor(R.color.back_color));
+        }
+
+        else{
+          this.bmp = this.bMutable.copy(Config.ARGB_4444,true);
+        this.cnv = new Canvas(this.bmp);
+        }
+
         int c = (this.Trazos.size()-doBack)-1;
         int c2 = 0;
 
@@ -1153,12 +1190,27 @@ public class canvas extends View{
 
 
     /**
-     * devuelve el canvas del View
-     * @return
+     * establece una imagen como fondo del canvas
      */
-    public Canvas getCnv(){
-        return this.cnv;
+    public void setFileToCanvas(File f){
+        Bitmap b = BitmapFactory.decodeFile(f.getAbsolutePath());
+        this.cnv.drawBitmap(b,0,0,new Paint());
+        this.invalidate();
+
     }
+
+
+
+    public void setOpened(boolean b){
+        if (b){
+            this.opened="open";
+        }
+    }
+
+    public void setOpenFile(File f){
+        this.openFile = f;
+    }
+
 
     /**
      * devuelve la variable CircleFixed

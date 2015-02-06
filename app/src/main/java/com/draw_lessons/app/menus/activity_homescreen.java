@@ -1,9 +1,11 @@
 package com.draw_lessons.app.menus;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,8 @@ import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.activity_draw;
 import com.draw_lessons.app.contenidos.activity_contenidos;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -96,6 +100,8 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
                 finish();
                 break;
             case R.id.imageView_open:
+
+
                 Intent i = new Intent();
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_GET_CONTENT);
@@ -133,11 +139,33 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
 
         if (resultCode == RESULT_OK) {
             Uri u = data.getData();
-            String s = u.getPath();
 
 
-            bt_exit.setImageBitmap(BitmapFactory.decodeFile(s));
-            Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, u.toString(), Toast.LENGTH_LONG).show();
+            Intent i = new Intent();
+            String s = "open";
+            i.putExtra("open",s);
+            String path;
+
+            String [] proj={MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(u, proj,  null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            path = cursor.getString(column_index);
+            cursor.close();
+
+            String[] a = path.split("t");
+
+            i.putExtra("file",path);
+            i.setClass(activity_homescreen.this, activity_draw.class);
+
+            startActivity(i);
+
+
+
+            finish();
+
+
         }
 
     }
