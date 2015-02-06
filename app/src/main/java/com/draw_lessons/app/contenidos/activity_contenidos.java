@@ -24,7 +24,7 @@ import com.draw_lessons.app.canvas.activity_draw;
 import com.draw_lessons.app.canvas.cnvAdapter;
 import com.draw_lessons.app.menus.activity_homescreen;
 
-public class activity_contenidos extends ActionBarActivity {
+public class activity_contenidos extends ActionBarActivity implements fragment_cursos_pestana.OnCursoSeleccionadoListener {
 
     DrawerLayout mDrawerLayout;
 
@@ -178,4 +178,15 @@ public class activity_contenidos extends ActionBarActivity {
         PROFILE = i.getStringExtra("personPhotoUrl");
         COVER = i.getStringExtra("personCoverUrl");
     }
+
+    @Override
+    public void onCursoSeleccionado(int id_tema) {
+        FragmentTransaction ft;
+        Fragment frag;
+        frag = new fragment_temas().newInstance(id_tema);
+        ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+        ft.commit();
+    }
+
+
 }

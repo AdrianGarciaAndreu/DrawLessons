@@ -4,12 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.draw_lessons.app.R;
 
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class fragment_temas extends ActionBarActivity {
+public class fragment_temas extends Fragment {
 
     RecyclerView.Adapter rvAdapter;
     List<adapter_tema.Section> sections = new ArrayList<adapter_tema.Section>();
@@ -30,45 +31,41 @@ public class fragment_temas extends ActionBarActivity {
     private JSONArray json_contenidos = null;
     private JSONArray json_temas = null;
     private ArrayList<item_contenido> contenidos;
+    private int id_tema;
+    private View rootView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_temas);
 
-        rv_temas = (RecyclerView) findViewById(R.id.recyler_view_temas);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_temas, container, false);
+        rv_temas = (RecyclerView) rootView.findViewById(R.id.recyler_view_temas);
         rv_temas.setHasFixedSize(true);
+        rv_temas.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        rv_temas.setLayoutManager(new LinearLayoutManager(this));
-
-        //rv_temas.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
-
-        cargarTemas ct = new cargarTemas(this);
+        cargarTemas ct = new cargarTemas(getActivity());
         ct.execute();
 
+        id_tema = savedInstanceState.getInt("id_tema");
+
+        return rootView;
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        return true;
+    public static fragment_temas newInstance(int id_tema) {
+        fragment_temas f = new fragment_temas();
+
+        Bundle args = new Bundle();
+        args.putInt("id_tema", id_tema);
+        f.setArguments(args);
+
+        return f;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private class cargarTemas extends AsyncTask<Void, Void, Void> {
 
@@ -98,7 +95,7 @@ public class fragment_temas extends ActionBarActivity {
             webservice wb = new webservice();
 
             //Guarda el string del JSON
-            String jsonString = wb.makeServiceCall("http://draw-lessons.com/api/?a=getTemasCurso&id=1");
+            String jsonString = wb.makeServiceCall("http://draw-lessons.com/api/?a=getTemasCurso&id=" + id_tema);
 
             if (jsonString != null) {
                 try {
@@ -167,5 +164,7 @@ public class fragment_temas extends ActionBarActivity {
             rv_temas.setAdapter(mSectionedAdapter);
         }
     }
+
+
 
 }

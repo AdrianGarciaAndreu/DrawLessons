@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 public class fragment_contenido extends ActionBarActivity {
 
-    private final int id_contenido = 4;
+    private int id_contenido = 4;
     ProgressDialog pDialog;
 
     TextView tv_nombre;

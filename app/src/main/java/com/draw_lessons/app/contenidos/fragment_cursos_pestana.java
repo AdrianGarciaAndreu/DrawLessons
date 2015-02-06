@@ -1,8 +1,8 @@
 package com.draw_lessons.app.contenidos;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.RecyclerItemClickListener;
@@ -44,6 +43,8 @@ public class fragment_cursos_pestana extends Fragment {
     private JSONArray json_cursos = null;
 
     private String consulta;
+
+    private OnCursoSeleccionadoListener listener;
 
     public fragment_cursos_pestana() {
         // Required empty public constructor
@@ -97,22 +98,33 @@ public class fragment_cursos_pestana extends Fragment {
         layoutManager = new GridLayoutManager(rootView.getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-		recyclerView.addOnItemTouchListener(
-				new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-					@Override public void onItemClick(View view, int position) {
-						// do whatever
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        // do whatever
 
-						Toast.makeText(getActivity(), cursos.get(position).getNombre().toString(), Toast.LENGTH_SHORT).show();
+                        listener.onCursoSeleccionado(cursos.get(position).getId());
 
-					}
-				})
-		);
+                        //Toast.makeText(getActivity(), cursos.get(position).getNombre().toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                })
+        );
 
         new cargarCursos().execute();
 
         return rootView;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            listener = (OnCursoSeleccionadoListener) activity;
+        } catch (ClassCastException e) {
+        }
+    }
 
     /**
      * Async task class to get json by making HTTP call
@@ -182,5 +194,10 @@ public class fragment_cursos_pestana extends Fragment {
             recyclerView.setAdapter(adapter);
 
         }
+    }
+
+    //Interfaz comunicación con el acticity
+    public interface OnCursoSeleccionadoListener {
+        public void onCursoSeleccionado(int id_tema);
     }
 }
