@@ -2,55 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tv_headTuto1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
         android:paddingTop="20dp"
         android:text="Bienvenido a Draw Lessons"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="35dp"
+        android:textSize="50dp"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:paddingTop="10dp" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView2"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/img_tuto1"
         android:layout_gravity="center"
-        android:paddingTop="20dp"
-        android:text="Bla bla bla, bla bla bla"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:background="@drawable/ic_screendraw"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:layout_width="563dp"
+        android:layout_height="wrap_content"
+        android:text="Una app educativa ideada para mejorar y poner en práctica tus conocimientos sobre dibujo técnico de una manera fácil."
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:editable="false"
+        android:id="@+id/editText_Tuto1"
+        android:layout_marginTop="40dp"
+        android:autoText="false"
+        android:elegantTextHeight="true" />
 
 </LinearLayout>

@@ -18,13 +18,19 @@
         android:baselineAligned="false"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:paddingBottom="95dp"
-        android:weightSum="100">
+        android:paddingBottom="100dp"
+        android:weightSum="60">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="12"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="25"
+            android:layout_weight="9"
             android:gravity="bottom|center"
             android:orientation="vertical">
 
@@ -33,8 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/newpro" />
+                android:background="@drawable/newpro_style" />
 
             <TextView
                 android:id="@+id/textView_new"
@@ -49,7 +54,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="25"
+            android:layout_weight="9"
             android:gravity="bottom"
             android:orientation="vertical">
 
@@ -58,8 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/proyect" />
+                android:background="@drawable/proyect_style" />
 
             <TextView
                 android:id="@+id/textView_open"
@@ -74,7 +78,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="25"
+            android:layout_weight="9"
             android:gravity="bottom"
             android:orientation="vertical">
 
@@ -83,8 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/contents" />
+                android:background="@drawable/contents_style"/>
 
             <TextView
                 android:id="@+id/textView_contents"
@@ -99,7 +102,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="25"
+            android:layout_weight="9"
             android:gravity="bottom"
             android:orientation="vertical">
 
@@ -108,8 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/exitpro" />
+                android:background="@drawable/exitpro_style" />
 
             <TextView
                 android:id="@+id/textView_exit"
@@ -121,6 +123,12 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="12"></LinearLayout>
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView

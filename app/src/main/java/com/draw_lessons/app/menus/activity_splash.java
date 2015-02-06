@@ -15,16 +15,16 @@ import java.util.TimerTask;
 
 
 // Esta es la pantalla de Splash.
-// En esta clase también se recupera el dato para saber si el user se ha logeado
-// con anterioridad y decidir si mostramos o no el activity_tutorial.
+// En esta clase también se recupera el dato para saber si el user ha ojeado
+// el tutorial y decidir si mostramos o no el activity_tutorial cuando vuelva a entrar en la app.
 
 public class activity_splash extends Activity {
 
     // Tiempo de duración de la splash screen
     private static final long SPLASH_SCREEN_DELAY = 3000;
 
-    // si vale 0 el user no está logeado. Si vale 1 sí lo está.
-    private int isSignIn = 0;
+    // si vale false se mostrará el tutorial de inicio. Si vale true saltará del splash a la pantalla principal.
+    private boolean showTutorial = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +43,13 @@ public class activity_splash extends Activity {
 
                 // Inicia el siguiente activity
 
-                if (isSignIn == 0) {// Si el user no está logeado va al activity_tutorial.
+                if (!showTutorial) {// Si el user no ha leido el tuto va al activity_tutorial.
 
                     Intent mainIntent = new Intent().setClass(
                             activity_splash.this, activity_tutorial.class);
                     startActivity(mainIntent);
 
-                } else {// Si el user está logeado salta al menú principal.
+                } else {// Si el user todavía no ha leido el tuto, salta al menú principal.
 
                     Intent mainIntent = new Intent().setClass(activity_splash.this, activity_login.class);
                     //
@@ -73,10 +73,10 @@ public class activity_splash extends Activity {
     }
 
 
-    // Comprueba si el usuario se ha logeado para no volver a mostrar el activity_tutorial.
-    // El método da valor a la variable isSignIn. 0 = no logeado y 1 = logeado.
+    // Comprueba si el usuario ha leido el tutorial de inicio para no volver a mostrar
+    // el activity_tutorial. El método da valor a la variable isSignIn. 0 = no leido y 1 = leido.
     public void loadSignIn() {
         SharedPreferences preferences = getSharedPreferences("info", Context.MODE_PRIVATE);
-        isSignIn = preferences.getInt("singIn", 0);
+        showTutorial = preferences.getBoolean("showTuto", false);
     }
 }
