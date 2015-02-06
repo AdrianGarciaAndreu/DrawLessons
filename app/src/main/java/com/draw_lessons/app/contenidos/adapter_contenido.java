@@ -53,7 +53,7 @@ public class adapter_contenido extends RecyclerView.Adapter<adapter_contenido.My
         TextView tv_duracion = holder.tv_duracion;
 
         tv_nombre.setText(contenidosDataSet.get(listPosition).getNombre_contenido());
-        tv_duracion.setText(contenidosDataSet.get(listPosition).getDuracion_contenido() + "");
+        tv_duracion.setText(contenidosDataSet.get(listPosition).getDuracion_contenido() + " min");
     }
 
     @Override

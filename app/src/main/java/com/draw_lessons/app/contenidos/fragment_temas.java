@@ -76,6 +76,7 @@ public class fragment_temas extends Fragment {
         Picasso.with(getActivity()).load(img_curso).placeholder(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_placeholder).fit().into(img);
 
+
         rv_temas.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {

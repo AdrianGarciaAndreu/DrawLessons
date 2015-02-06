@@ -2,9 +2,13 @@ package com.draw_lessons.app.contenidos;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +37,6 @@ public class fragment_contenido extends Fragment {
     TextView tv_texto;
     ImageView img_contenido;
     ImageView img_video;
-    TextView tv_video;
 
     public static fragment_contenido newInstance(String nom, int duracion, String url, String texto, String img, String video) {
         fragment_contenido f = new fragment_contenido();
@@ -63,21 +66,36 @@ public class fragment_contenido extends Fragment {
         tv_duracion = (TextView) rootView.findViewById(R.id.tv_duracion_contenido);
         tv_url = (TextView) rootView.findViewById(R.id.tv_url_contenido);
         tv_texto = (TextView) rootView.findViewById(R.id.tv_texto_contenido);
-        tv_video = (TextView) rootView.findViewById(R.id.tv_nombre_video_contenido);
         img_contenido = (ImageView) rootView.findViewById(R.id.img_contenido);
         img_video = (ImageView) rootView.findViewById(R.id.img_video_contenido);
 
         Bundle b = getArguments();
 
         tv_nombre.setText(b.getString("nombre_contenido"));
-        tv_duracion.setText(String.valueOf(b.getInt("duracion_contenido")));
-        tv_url.setText(b.getString("url_contenido"));
+        tv_duracion.setText(String.valueOf(b.getInt("duracion_contenido")) + " min");
+
+        tv_url.setClickable(true);
+        tv_url.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_url.setText(Html.fromHtml("<a href='"+b.getString("url_contenido")+"'> "+b.getString("url_contenido")+" </a>"));
+
         tv_texto.setText(b.getString("texto_contenido"));
+
         Picasso.with(getActivity()).load(b.getString("img_contenido")).placeholder(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_placeholder).fit().into(img_contenido);
 
-        //cargarContenido cc = new cargarContenido(getActivity());
-        //cc.execute();
+        String video_img = "http://img.youtube.com/vi/" + getArguments().getString("video_contenido") + "/hqdefault.jpg";
+        Picasso.with(getActivity()).load(video_img).placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_placeholder).fit().into(img_video);
+
+        img_video.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://www.youtube.com/watch?v=" + getArguments().getString("video_contenido")));
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

@@ -82,31 +82,13 @@
                         android:layout_weight="50"
                         android:layout_margin="10dp" />
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/img_video_contenido"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:weightSum="100">
-
-                        <ImageView
-                            android:id="@+id/img_video_contenido"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_placeholder_youtube"
-                            android:layout_weight="40"
-                            android:layout_gravity="center" />
-
-                        <TextView
-                            android:id="@+id/tv_nombre_video_contenido"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Dzeko &amp; Torres - Alarm (Official Music Video)"
-                            android:layout_weight="60"
-                            android:gravity="center"
-                            android:layout_gravity="center" />
-
-                    </LinearLayout>
+                        android:src="@drawable/ic_placeholder_youtube"
+                        android:layout_weight="40"
+                        android:layout_gravity="center" />
 
                 </LinearLayout>
             </LinearLayout>
