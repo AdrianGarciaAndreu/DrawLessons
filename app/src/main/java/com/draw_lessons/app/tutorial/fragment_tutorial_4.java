@@ -46,10 +46,6 @@ public class fragment_tutorial_4 extends Fragment implements View.OnClickListene
 
 
 
-
-    /*
-
-
     //Lo que hace el botón de tutorial entendido
     @Override
     public void onClick(View v) {
@@ -69,33 +65,10 @@ public class fragment_tutorial_4 extends Fragment implements View.OnClickListene
 
     }
 
-    */
-
-
-    /**
-     * Reemplazado por el sign de google por fallos
-     * @param v
-     */
 
 
 
-    //Lo que hace el botón de tutorial entendido
-    @Override
-    public void onClick(View v) {
 
-        if (v == understood) {
-
-            // Si el usuario ha pulsado el botón, guardamos el dato.
-            this.saveSingInGoogle();
-            // Pasamos a la pantalla principal.
-            Intent intent = new Intent(getActivity(), activity_homescreen.class);
-            startActivity(intent);
-            //para que una vez en la pantalla principal no vuelva al activity_tutorial.
-            getActivity().finish();
-        }
-
-
-    }
 
     // Este método guarda si el usuario ha entendido el tutorial para no volver a mostrar el activity_tutorial.
     public void saveSingInGoogle() {
