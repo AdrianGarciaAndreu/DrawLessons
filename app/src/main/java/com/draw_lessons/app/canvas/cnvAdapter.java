@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.draw_lessons.app.R;
@@ -35,6 +36,7 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
 	TextView textView;
 	ImageView imageView;
 	ImageView profile;
+	RelativeLayout back;
 	TextView Name;
 	TextView email;
 
@@ -55,7 +57,8 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
 
 			Name = (TextView) itemView.findViewById(R.id.name);         // Creating Text View object from header.xml for name
 			email = (TextView) itemView.findViewById(R.id.email);       // Creating Text View object from header.xml for email
-			profile = (ImageView) itemView.findViewById(R.id.cnvCircleView);// Creating Image view object from header.xml for profile pic
+			profile = (ImageView) itemView.findViewById(R.id.cnvCircleView);
+			back = (RelativeLayout)itemView.findViewById(R.id.header_back);// Creating Image view object from header.xml for profile pic
 			Holderid = 0;                                                // Setting holder id = 0 as the object being populated are of type header view
 		}
 	}
@@ -71,8 +74,8 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
 		mIcons = Icons;
 		name = Name;
 		email = Email;
-		profile = Profile;                     //here we assign those passed values to the values we declared here
-		//in adapter
+		profile = Profile;
+
 
 
 

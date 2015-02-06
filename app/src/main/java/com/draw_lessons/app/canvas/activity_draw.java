@@ -48,7 +48,7 @@ public class activity_draw extends ActionBarActivity {
     RecyclerView cnvRecycle;
     String NAME = "Aleix Casanova";
     String EMAIL = "aleix.casanova@gmail.com";
-    int PROFILE = R.drawable.icondl;
+    int PROFILE = R.drawable.photo;
     String TITLES[] = {"Canvas","Contenidos"};
     int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
 

@@ -2,6 +2,7 @@ package com.draw_lessons.app.contenidos;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.draw_lessons.app.R;
+import com.draw_lessons.app.canvas.RecyclerItemClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,6 +97,16 @@ public class fragment_cursos_pestana extends Fragment {
         layoutManager = new GridLayoutManager(rootView.getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+		recyclerView.addOnItemTouchListener(
+				new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+					@Override public void onItemClick(View view, int position) {
+						// do whatever
+
+						Toast.makeText(getActivity(), cursos.get(position).getNombre().toString(), Toast.LENGTH_SHORT).show();
+
+					}
+				})
+		);
 
         new cargarCursos().execute();
 
