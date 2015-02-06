@@ -16,7 +16,9 @@
             android:layout_height="match_parent"
             android:id="@+id/img_curso"
             android:src="@drawable/ic_placeholder"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:layout_margin="10dp"
+            android:elevation="12dp" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -31,7 +33,8 @@
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:layout_width="match_parent"

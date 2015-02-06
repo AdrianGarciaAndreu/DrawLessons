@@ -79,7 +79,9 @@ public class fragment_temas extends Fragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         // do whatever
-                        Toast.makeText(getActivity(),""+position, Toast.LENGTH_SHORT).show();
+                        if(view.getId() == R.id.item_contenido){
+                            Toast.makeText(getActivity(),""+position, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
         );
