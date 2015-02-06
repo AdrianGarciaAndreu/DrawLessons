@@ -29,14 +29,18 @@
                 android:text="New Text"
                 android:id="@+id/tv_nombre_curso"
                 android:textSize="30sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:gravity="center" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="New Text"
                 android:id="@+id/tv_descripcion_curso"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:gravity="center" />
         </LinearLayout>
 
     </LinearLayout>
@@ -45,6 +49,7 @@
         android:id="@+id/recyler_view_temas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:layout_margin="10dp" />
 
 </LinearLayout>

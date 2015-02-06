@@ -19,6 +19,7 @@
         android:text="New Text"
         android:id="@+id/tv_duracion"
         android:layout_weight="10"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:gravity="center" />
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.draw_lessons.app.contenidos;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.draw_lessons.app.R;
+import com.draw_lessons.app.canvas.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -71,6 +74,15 @@ public class fragment_temas extends Fragment {
         tv_descripcion.setText(descripcion_curso);
         Picasso.with(getActivity()).load(img_curso).placeholder(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_placeholder).fit().into(img);
+
+        rv_temas.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        // do whatever
+                        Toast.makeText(getActivity(),""+position, Toast.LENGTH_SHORT).show();
+                    }
+                })
+        );
 
         cargarTemas ct = new cargarTemas(getActivity());
         ct.execute();
