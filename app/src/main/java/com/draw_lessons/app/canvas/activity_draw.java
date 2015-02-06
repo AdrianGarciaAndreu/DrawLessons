@@ -92,10 +92,7 @@ public class activity_draw extends ActionBarActivity {
                                 break;
                             case 1:
                                 //Menu principal
-                                Intent i_hs = new Intent(view.getContext(), activity_homescreen.class);
-                                i_hs.putExtras(intent_principal);
-                                startActivity(i_hs);
-                                finish();
+								CloseDialog();
                                 break;
                             case 2:
                                 //No hacemos nada ya qu estamos en la sección actual
@@ -567,18 +564,17 @@ public class activity_draw extends ActionBarActivity {
         b.setMessage(R.string.exit_msg);
         b.setCancelable(true);
 
-        b.setPositiveButton(R.string.exit_accept, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent i = new Intent().setClass(getBaseContext(), activity_homescreen.class);
-                startActivity(i);
-                finish();
-            }
-        });
+		b.setPositiveButton(R.string.exit_accept, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Intent i_hs = new Intent(getBaseContext(), activity_homescreen.class);
+				i_hs.putExtras(intent_principal);
+				startActivity(i_hs);
+				finish();
+			}
+		}).setNegativeButton(R.string.exit_cancel, null);
 
-        b.setNegativeButton(R.string.exit_cancel, null);
-
-        b.setNeutralButton(R.string.exit_neutral, new DialogInterface.OnClickListener() {
+		b.setNeutralButton(R.string.exit_neutral, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SaveBMP(false);

@@ -151,7 +151,7 @@ public class activity_login extends ActionBarActivity implements View.OnClickLis
         comprobarUsuario cu = new comprobarUsuario(this);
         cu.execute();
 
-        Toast.makeText(this, "Usuario " + personEmail + " conectado!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Usuario " + personEmail + " conectado!", Toast.LENGTH_SHORT).show();
 
 
     }
