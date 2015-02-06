@@ -36,9 +36,10 @@
     <string name="exit_cancel">"Cancelar"</string>
     <string name="title_activity_open_file">open_file</string>
 
-
-    <!-- Login -->
-    <string name="btn_logout_from_google">Logout from Google</string>
-    <string name="btn_revoke_access">Revoke Access</string>
-
+    <string-array name="menu_navigation">
+        <item>Menu principal</item>
+        <item>Canvas</item>
+        <item>Contenidos</item>
+        <item>Salir</item>
+    </string-array>
 </resources>

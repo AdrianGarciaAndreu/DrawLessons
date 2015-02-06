@@ -141,7 +141,7 @@ public class activity_login extends ActionBarActivity implements View.OnClickLis
         Toast.makeText(this, "Usuario " + personEmail + " conectado!", Toast.LENGTH_LONG).show();
 
         Intent i = new Intent().setClass(activity_login.this, activity_homescreen.class);
-        i.putExtra("personGooglePlusProfile", personGooglePlusProfile);
+        i.putExtra("personID", personGooglePlusProfile);
         i.putExtra("personName",personName);
         i.putExtra("personEmail",personEmail);
         i.putExtra("personCoverUrl",personCoverUrl);

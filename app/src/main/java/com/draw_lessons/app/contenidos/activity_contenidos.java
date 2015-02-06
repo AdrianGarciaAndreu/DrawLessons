@@ -4,8 +4,6 @@ package com.draw_lessons.app.contenidos;
  * Created by Aleix on 2015-02-01.
  */
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -23,6 +21,7 @@ import android.view.View;
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.RecyclerItemClickListener;
 import com.draw_lessons.app.canvas.activity_draw;
+import com.draw_lessons.app.canvas.cnvAdapter;
 import com.draw_lessons.app.menus.activity_homescreen;
 
 public class activity_contenidos extends ActionBarActivity {
@@ -35,23 +34,31 @@ public class activity_contenidos extends ActionBarActivity {
     RecyclerView.LayoutManager contLayoutManager;
     RecyclerView contRecycle;
 
-    String NAME = "Aleix Casanova";
-    String EMAIL = "aleix.casanova@gmail.com";
-    String IMGURL = "https://lh4.googleusercontent.com/-gDhD-uCt2oQ/AAAAAAAAAAI/AAAAAAAABCQ/j-5tVA7nTJQ/s120-c/photo.jpg";
-    int PROFILE = R.drawable.photo;
-    String TITLES[] = {"Canvas","Contenidos"};
-    int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
+    Intent intent_principal;
+    String NAME;
+    String EMAIL;
+    String PROFILE;
+    String COVER;
+    String TITLES[];
+    int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contenidos);
+
+        intent_principal = getIntent();
+        TITLES = getResources().getStringArray(R.array.menu_navigation);
+        setDatos(intent_principal);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         contRecycle = (RecyclerView) findViewById(R.id.recycler_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         contRecycle.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
-        contAdapter= new com.draw_lessons.app.canvas.cnvAdapter(TITLES,ICONS,NAME,EMAIL,PROFILE);
+
+
+        contAdapter = new cnvAdapter(TITLES, ICONS, NAME, EMAIL, PROFILE, COVER);
 
         contRecycle.setAdapter(contAdapter);
         contLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
@@ -59,22 +66,31 @@ public class activity_contenidos extends ActionBarActivity {
         contRecycle.setLayoutManager(contLayoutManager);
         contRecycle.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         // do whatever
                         switch (position) {
                             case 0:
                                 //Header no hacer nada
                                 break;
                             case 1:
-                                Intent i_canvas = new Intent(view.getContext(), activity_draw.class);
-                                startActivity(i_canvas);
+                                //Menu principal
+                                Intent i_hs = new Intent(view.getContext(), activity_homescreen.class);
+                                i_hs.putExtras(intent_principal);
+                                startActivity(i_hs);
                                 finish();
                                 break;
                             case 2:
-                                //No hacemos nada ya qu estamos en la sección actual
+                                Intent i = new Intent(view.getContext(), activity_draw.class);
+                                i.putExtras(intent_principal);
+                                startActivity(i);
+                                finish();
                                 break;
                             case 3:
-
+                                //No hacemos nada ya qu estamos en la sección actual
+                                break;
+                            case 4:
+                                finish();
                                 break;
                         }
 
@@ -108,37 +124,17 @@ public class activity_contenidos extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
 
-       cargarCursos();
+        cargarCursos();
     }
-	public void CloseDialog(){
-		AlertDialog.Builder b = new AlertDialog.Builder(this);
-		b.setTitle(R.string.exit_title);
-		b.setMessage(R.string.exit_msg);
-		b.setCancelable(true);
 
-		b.setPositiveButton(R.string.exit_accept, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				Intent i = new Intent().setClass(getBaseContext(), activity_homescreen.class);
-				startActivity(i);
-				finish();
-			}
-		});
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, activity_homescreen.class);
+        i.putExtras(intent_principal);
+        startActivity(i);
+        finish();
+    }
 
-		b.setNegativeButton(R.string.exit_cancel, null);
-
-		b.setIcon(this.getResources().getDrawable(R.drawable.delete));
-		AlertDialog a = b.create();
-		a.show();
-
-
-
-	}
-
-	@Override
-	public void onBackPressed() {
-		this.CloseDialog();
-	}
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -174,5 +170,12 @@ public class activity_contenidos extends ActionBarActivity {
         frag = new fragment_cursos();
         ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
         ft.commit();
+    }
+
+    private void setDatos(Intent i) {
+        NAME = i.getStringExtra("personName");
+        EMAIL = i.getStringExtra("personEmail");
+        PROFILE = i.getStringExtra("personPhotoUrl");
+        COVER = i.getStringExtra("personCoverUrl");
     }
 }

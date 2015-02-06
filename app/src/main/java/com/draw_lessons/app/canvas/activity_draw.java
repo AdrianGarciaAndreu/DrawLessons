@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -20,12 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.draw_lessons.app.R;
@@ -46,11 +41,14 @@ public class activity_draw extends ActionBarActivity {
     RecyclerView.Adapter cnvAdapter;                        // Declaring Adapter For Recycler View
     RecyclerView.LayoutManager cnvLayoutManager;
     RecyclerView cnvRecycle;
-    String NAME = "Aleix Casanova";
-    String EMAIL = "aleix.casanova@gmail.com";
-    int PROFILE = R.drawable.photo;
-    String TITLES[] = {"Canvas","Contenidos"};
-    int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
+
+    Intent intent_principal;
+    String NAME;
+    String EMAIL;
+    String PROFILE;
+    String COVER;
+    String TITLES[];
+    int ICONS[] = {R.drawable.icondl, R.drawable.icondl, R.drawable.icondl, R.drawable.icondl};
 
     public boolean toolClicked = true;
     public int ClickedID = 0;
@@ -62,17 +60,20 @@ public class activity_draw extends ActionBarActivity {
     public static MenuItem i2;
 
     public static MenuItem distance;
-    public static MenuItem x1,y1,x2,y2;
+    public static MenuItem x1, y1, x2, y2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_draw);
+
+        intent_principal = getIntent();
+        setDatos(intent_principal);
+        TITLES = getResources().getStringArray(R.array.menu_navigation);
 
         cnvRecycle = (RecyclerView) findViewById(R.id.recycler_view_cnv); // Assigning the RecyclerView Object to the xml View
         cnvRecycle.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
-        cnvAdapter = new com.draw_lessons.app.canvas.cnvAdapter(TITLES,ICONS,NAME,EMAIL,PROFILE);
+        cnvAdapter = new cnvAdapter(TITLES, ICONS, NAME, EMAIL, PROFILE, COVER);
 
 
         cnvDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_cnv);
@@ -82,23 +83,34 @@ public class activity_draw extends ActionBarActivity {
         cnvRecycle.setLayoutManager(cnvLayoutManager);
         cnvRecycle.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         // do whatever
                         switch (position) {
                             case 0:
                                 //Header no hacer nada
                                 break;
                             case 1:
-                                //No hacemos nada ya qu estamos en la sección actual
+                                //Menu principal
+                                Intent i_hs = new Intent(view.getContext(), activity_homescreen.class);
+                                i_hs.putExtras(intent_principal);
+                                startActivity(i_hs);
+                                finish();
                                 break;
                             case 2:
+                                //No hacemos nada ya qu estamos en la sección actual
+                                break;
+                            case 3:
+                                //Contenidos
                                 Intent i_curso = new Intent(view.getContext(), activity_contenidos.class);
+                                i_curso.putExtras(intent_principal);
                                 startActivity(i_curso);
                                 finish();
                                 break;
-                            case 3:
-
+                            case 4:
+                                finish();
                                 break;
+
                         }
 
                     }
@@ -144,6 +156,13 @@ public class activity_draw extends ActionBarActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         this.et1.setLayoutParams(lp);
 
+    }
+
+    private void setDatos(Intent i) {
+        NAME = i.getStringExtra("personName");
+        EMAIL = i.getStringExtra("personEmail");
+        PROFILE = i.getStringExtra("personPhotoUrl");
+        COVER = i.getStringExtra("personCoverUrl");
     }
 
 
@@ -198,7 +217,6 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
-
     /**
      * Método que capta la resolucion de la pantalla, coge el Layout del activity, crea un Objeto
      * de la clase Cnv, le da una resolucion X y una resolucion Y al canvas, lanza el método que
@@ -228,8 +246,6 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
-
-
     /**
      * Método para manjera los menus
      * de la ActionBar del activity
@@ -256,12 +272,12 @@ public class activity_draw extends ActionBarActivity {
     /**
      * oculta todas las herramientas a excepción del Lápiz
      */
-    public void resetToolbar(){
+    public void resetToolbar() {
         for (int i = 0; i < this.items.length; i++) {
             if (this.items[i] != null) {
                 if (this.items[i].getItemId() != 0) {
                     this.items[i].setVisible(false);
-                }else{
+                } else {
                     this.items[i].setVisible(true);
                     this.ClickedID = i;
                 }
@@ -300,8 +316,6 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
-
-
     /**
      * Metodo para añadir menus a la
      * Barra de acion del activity
@@ -321,37 +335,32 @@ public class activity_draw extends ActionBarActivity {
         i2.setVisible(false);
 
 
-
-
-        activity_draw.x1 = menu.add(0, 11, menu.NONE,"x1");
+        activity_draw.x1 = menu.add(0, 11, menu.NONE, "x1");
         activity_draw.x1.setTitle("0.00, x1");
         activity_draw.x1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        activity_draw.y1 = menu.add(0, 12, menu.NONE,"y1");
+        activity_draw.y1 = menu.add(0, 12, menu.NONE, "y1");
         activity_draw.y1.setTitle("0.00, y1");
         activity_draw.y1.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        activity_draw.x2 = menu.add(0, 13, menu.NONE,"x2");
+        activity_draw.x2 = menu.add(0, 13, menu.NONE, "x2");
         activity_draw.x2.setTitle("0.00, x2");
         activity_draw.x2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        activity_draw.y2 = menu.add(0, 14, menu.NONE,"y2");
+        activity_draw.y2 = menu.add(0, 14, menu.NONE, "y2");
         activity_draw.y2.setTitle("0.00, y2");
         activity_draw.y2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 
-
         //Distancia del ultimo Objeto despues de ser usado
-        activity_draw.distance = menu.add(0,10,menu.NONE,"Distancia/Radio");
+        activity_draw.distance = menu.add(0, 10, menu.NONE, "Distancia/Radio");
         activity_draw.distance.setTitle("0.00, dist");
         activity_draw.distance.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        menu.add(0,11,menu.NONE,R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 11, menu.NONE, R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 
-
-
-        this.items[0] = menu.add(0, 0, menu.NONE,R.string.hand_made);
+        this.items[0] = menu.add(0, 0, menu.NONE, R.string.hand_made);
         this.items[0].setIcon(R.drawable.hand);
         this.items[0].setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
@@ -373,7 +382,7 @@ public class activity_draw extends ActionBarActivity {
         this.items[3].setVisible(false);
 
         // Espacio, entre herramientas
-        menu.add(0,9,menu.NONE,R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 9, menu.NONE, R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 
         MenuItem i3 = menu.add(0, 6, Menu.NONE, R.string.undo);
@@ -386,8 +395,6 @@ public class activity_draw extends ActionBarActivity {
 
 
     }
-
-
 
 
     /**
@@ -481,12 +488,11 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
-
     /**
      * Crea un dialogo para guardar
      * una imagen
      */
-    public void SaveBMP(){
+    public void SaveBMP() {
 
         AlertDialog.Builder b = new AlertDialog.Builder(this);
 
@@ -496,9 +502,9 @@ public class activity_draw extends ActionBarActivity {
         b.setPositiveButton(R.string.save_draw, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                saver s = new saver(canvas.getBitmapt(),getBaseContext(),et1.getText().toString());
+                saver s = new saver(canvas.getBitmapt(), getBaseContext(), et1.getText().toString());
                 s.Save();
-                Toast.makeText(getBaseContext(),R.string.save_toast,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), R.string.save_toast, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -520,10 +526,10 @@ public class activity_draw extends ActionBarActivity {
      * Crea un dialogo para guardar
      * una imagen despues de guardar
      * la imagen, sale al menu
-     *
+     * <p/>
      * Metodo sobrecargado, el parametro es irrelevante
      */
-    public void SaveBMP(boolean ex){
+    public void SaveBMP(boolean ex) {
 
         AlertDialog.Builder b = new AlertDialog.Builder(this);
 
@@ -533,10 +539,10 @@ public class activity_draw extends ActionBarActivity {
         b.setPositiveButton(R.string.save_draw, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                saver s = new saver(canvas.getBitmapt(),getBaseContext(),et1.getText().toString());
+                saver s = new saver(canvas.getBitmapt(), getBaseContext(), et1.getText().toString());
                 s.Save();
-                Toast.makeText(getBaseContext(),R.string.save_toast,Toast.LENGTH_SHORT).show();
-                Intent i = new Intent().setClass(getBaseContext(),activity_homescreen.class);
+                Toast.makeText(getBaseContext(), R.string.save_toast, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent().setClass(getBaseContext(), activity_homescreen.class);
                 startActivity(i);
                 finish();
             }
@@ -555,11 +561,7 @@ public class activity_draw extends ActionBarActivity {
     }
 
 
-
-
-
-
-    public void CloseDialog(){
+    public void CloseDialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle(R.string.exit_title);
         b.setMessage(R.string.exit_msg);
@@ -579,7 +581,7 @@ public class activity_draw extends ActionBarActivity {
         b.setNeutralButton(R.string.exit_neutral, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-              SaveBMP(false);
+                SaveBMP(false);
             }
         });
 
@@ -588,13 +590,12 @@ public class activity_draw extends ActionBarActivity {
         a.show();
 
 
-
     }
 
-	@Override
-	public void onBackPressed() {
-		this.CloseDialog();
-	}
+    @Override
+    public void onBackPressed() {
+        this.CloseDialog();
+    }
 
 
     @Override
@@ -623,44 +624,37 @@ public class activity_draw extends ActionBarActivity {
  */
 
 
+    public static void setX1(float a) {
 
-
-
-    public static  void setX1(float a){
-
-        float aux=(float)Math.rint(a*100)/100;
-        a=aux;
-        String s = String.valueOf(a)+", x1";
+        float aux = (float) Math.rint(a * 100) / 100;
+        a = aux;
+        String s = String.valueOf(a) + ", x1";
         activity_draw.x1.setTitle(s);
     }
 
-    public static  void setY1(float a){
+    public static void setY1(float a) {
 
-        float aux=(float)Math.rint(a*100)/100;
-        a=aux;
-        String s = String.valueOf(a)+", y1";
+        float aux = (float) Math.rint(a * 100) / 100;
+        a = aux;
+        String s = String.valueOf(a) + ", y1";
         activity_draw.y1.setTitle(s);
     }
 
-    public static  void setX2(float a){
+    public static void setX2(float a) {
 
-        float aux=(float)Math.rint(a*100)/100;
-        a=aux;
-        String s = String.valueOf(a)+", x2";
+        float aux = (float) Math.rint(a * 100) / 100;
+        a = aux;
+        String s = String.valueOf(a) + ", x2";
         activity_draw.x2.setTitle(s);
     }
 
-    public static  void setY2(float a){
+    public static void setY2(float a) {
 
-        float aux=(float)Math.rint(a*100)/100;
-        a=aux;
-        String s = String.valueOf(a)+", y2";
+        float aux = (float) Math.rint(a * 100) / 100;
+        a = aux;
+        String s = String.valueOf(a) + ", y2";
         activity_draw.y2.setTitle(s);
     }
-
-
-
-
 
 
 }

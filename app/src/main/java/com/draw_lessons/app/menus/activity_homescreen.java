@@ -52,8 +52,9 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
         bt_content.setOnClickListener(this);
 
         i_draw = new Intent(this, activity_draw.class);
+        i_draw.putExtras(getIntent());
         i_content = new Intent(this, activity_contenidos.class);
-
+        i_content.putExtras(getIntent());
         img_user = (CircleImageView) findViewById(R.id.img_user);
         tv_nombre = (TextView) findViewById(R.id.tv_nameuser);
         tv_email = (TextView) findViewById(R.id.tv_emailuser);
@@ -121,6 +122,7 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
     /**
      * Recibiendo resultado de
      * la apertura de un proyecto
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -129,14 +131,14 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-       if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             Uri u = data.getData();
-           String s = u.getPath();
+            String s = u.getPath();
 
 
             bt_exit.setImageBitmap(BitmapFactory.decodeFile(s));
-           Toast.makeText(this,s,Toast.LENGTH_LONG).show();
-       }
+            Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -146,7 +148,6 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
         Picasso.with(this).load(getIntent().getStringExtra("personPhotoUrl")).placeholder(R.drawable.user_photo)
                 .error(R.drawable.user_photo).fit().into(img_user);
     }
-
 
 
 }
