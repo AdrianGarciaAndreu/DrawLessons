@@ -73,7 +73,7 @@ public class activity_draw extends ActionBarActivity {
 
         cnvRecycle = (RecyclerView) findViewById(R.id.recycler_view_cnv); // Assigning the RecyclerView Object to the xml View
         cnvRecycle.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
-        cnvAdapter = new cnvAdapter(TITLES, ICONS, NAME, EMAIL, PROFILE, COVER);
+        cnvAdapter = new cnvAdapter(this, TITLES, ICONS, NAME, EMAIL, PROFILE, COVER);
 
 
         cnvDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_cnv);

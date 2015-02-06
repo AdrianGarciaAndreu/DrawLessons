@@ -58,7 +58,7 @@ public class activity_contenidos extends ActionBarActivity {
         contRecycle.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
 
 
-        contAdapter = new cnvAdapter(TITLES, ICONS, NAME, EMAIL, PROFILE, COVER);
+        contAdapter = new cnvAdapter(this, TITLES, ICONS, NAME, EMAIL, PROFILE, COVER);
 
         contRecycle.setAdapter(contAdapter);
         contLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager

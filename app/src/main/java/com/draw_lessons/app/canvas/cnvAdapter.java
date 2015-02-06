@@ -1,10 +1,10 @@
 package com.draw_lessons.app.canvas;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +35,7 @@ public class cnvAdapter extends RecyclerView.Adapter<cnvAdapter.ViewHolder> {
     private String email;       //String Resource for header view email
     private String cover;
     private Context context;
+
 
 // Creating a ViewHolder which extends the RecyclerView View Holder
 // ViewHolder are used to to store the inflated views in order to recycle them
@@ -69,7 +70,7 @@ public class cnvAdapter extends RecyclerView.Adapter<cnvAdapter.ViewHolder> {
         }
     }
 
-    public cnvAdapter(String Titles[], int Icons[], String Name, String Email, String Profile, String Cover) { // MyAdapter Constructor with titles and icons parameter
+    public cnvAdapter(Context context, String Titles[], int Icons[], String Name, String Email, String Profile, String Cover) { // MyAdapter Constructor with titles and icons parameter
         // titles, icons, name, email, profile pic are passed from the main activity as we
         mNavTitles = Titles;                //have seen earlier
         mIcons = Icons;
@@ -77,6 +78,7 @@ public class cnvAdapter extends RecyclerView.Adapter<cnvAdapter.ViewHolder> {
         email = Email;
         profile = Profile;
         cover = Cover;
+        this.context=context;
     }
 
     //Below first we ovverride the method onCreateViewHolder which is called when the ViewHolder is
@@ -86,7 +88,6 @@ public class cnvAdapter extends RecyclerView.Adapter<cnvAdapter.ViewHolder> {
 
     @Override
     public cnvAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
         if (viewType == TYPE_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row, parent, false); //Inflating the layout
 
@@ -126,9 +127,15 @@ public class cnvAdapter extends RecyclerView.Adapter<cnvAdapter.ViewHolder> {
             //Cover
             Picasso.with(context).load(cover).into(new Target() {
                         @Override
-                        @TargetApi(16)
+
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            holder.fondo.setBackground(new BitmapDrawable(context.getResources(), bitmap));
+                            if (Build.VERSION.SDK_INT >= 16) {
+                                holder.fondo.setBackground(new BitmapDrawable(context.getResources(), bitmap));
+
+                            } else {
+                                holder.fondo.setBackgroundDrawable(new BitmapDrawable(bitmap));
+                            }
+
                         }
 
                         @Override
