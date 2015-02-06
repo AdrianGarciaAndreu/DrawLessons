@@ -130,14 +130,18 @@ public class activity_draw extends ActionBarActivity {
                 R.string.drawer_close) {
             public void onDrawerClosed(View v) {
                 super.onDrawerClosed(v);
-                invalidateOptionsMenu();
+//                invalidateOptionsMenu();
+                hide(ClickedID);
+
                 syncState();
             }
 
             public void onDrawerOpened(View v) {
                 super.onDrawerOpened(v);
-                invalidateOptionsMenu();
+//                invalidateOptionsMenu();
+                hide(ClickedID);
                 syncState();
+
             }
         };
         cnvDrawerLayout.setDrawerListener(cnvDrawerToggle);
@@ -260,7 +264,7 @@ public class activity_draw extends ActionBarActivity {
         this.canvas.prepareCanvas();
         this.canvas.setStrokeSize(canvas.SIZE_SMALL);
 
-        ////////////
+
         this.getVersion(this.canvas);
         this.ll1.addView(canvas);
 
