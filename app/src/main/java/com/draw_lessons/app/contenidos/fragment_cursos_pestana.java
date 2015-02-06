@@ -107,7 +107,7 @@ public class fragment_cursos_pestana extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        // do whatever
+
                         int id = cursos.get(position).getId();
                         String nom = cursos.get(position).getNombre();
                         String desc = cursos.get(position).getDescripcion();

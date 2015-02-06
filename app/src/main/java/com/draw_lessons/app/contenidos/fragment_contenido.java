@@ -4,10 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,10 +20,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class fragment_contenido extends ActionBarActivity {
+public class fragment_contenido extends Fragment {
 
     private int id_contenido = 4;
     ProgressDialog pDialog;
+
+    private View rootView;
 
     TextView tv_nombre;
     TextView tv_duracion;
@@ -32,44 +35,51 @@ public class fragment_contenido extends ActionBarActivity {
     ImageView img_video;
     TextView tv_video;
 
+    public static fragment_contenido newInstance(String nom, int duracion, String url, String texto, String img, String video) {
+        fragment_contenido f = new fragment_contenido();
+
+        Bundle args = new Bundle();
+        args.putString("nombre_contenido", nom);
+        args.putInt("duracion_contenido", duracion);
+        args.putString("url_contenido", url);
+        args.putString("texto_contenido", texto);
+        args.putString("img_contenido", img);
+        args.putString("video_contenido", video);
+        f.setArguments(args);
+
+        return f;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_contenido);
-
-        tv_nombre = (TextView) findViewById(R.id.tv_nombre_contenido);
-        tv_duracion = (TextView) findViewById(R.id.tv_duracion_contenido);
-        tv_url = (TextView) findViewById(R.id.tv_url_contenido);
-        tv_texto = (TextView) findViewById(R.id.tv_texto_contenido);
-        tv_video = (TextView) findViewById(R.id.tv_nombre_video_contenido);
-        img_contenido = (ImageView) findViewById(R.id.img_contenido);
-        img_video = (ImageView) findViewById(R.id.img_video_contenido);
-
-        cargarContenido cc = new cargarContenido(this);
-        cc.execute();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_contenido, container, false);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        tv_nombre = (TextView) rootView.findViewById(R.id.tv_nombre_contenido);
+        tv_duracion = (TextView) rootView.findViewById(R.id.tv_duracion_contenido);
+        tv_url = (TextView) rootView.findViewById(R.id.tv_url_contenido);
+        tv_texto = (TextView) rootView.findViewById(R.id.tv_texto_contenido);
+        tv_video = (TextView) rootView.findViewById(R.id.tv_nombre_video_contenido);
+        img_contenido = (ImageView) rootView.findViewById(R.id.img_contenido);
+        img_video = (ImageView) rootView.findViewById(R.id.img_video_contenido);
 
-        return super.onOptionsItemSelected(item);
+        Bundle b = getArguments();
+
+        tv_nombre.setText(b.getString("nombre_contenido"));
+        tv_duracion.setText(String.valueOf(b.getInt("duracion_contenido")));
+        tv_url.setText(b.getString("url_contenido"));
+        tv_texto.setText(b.getString("texto_contenido"));
+        Picasso.with(getActivity()).load(b.getString("img_contenido")).placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_placeholder).fit().into(img_contenido);
+
+        //cargarContenido cc = new cargarContenido(getActivity());
+        //cc.execute();
+
+        return rootView;
     }
 
     private class cargarContenido extends AsyncTask<Void, Void, Void> {
@@ -147,7 +157,6 @@ public class fragment_contenido extends ActionBarActivity {
             tv_url.setText(enlace_contenido);
             tv_duracion.setText(duracion_contenido + "");
             Picasso.with(context).load(imagen_contenido).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(img_contenido);
-
         }
     }
 }

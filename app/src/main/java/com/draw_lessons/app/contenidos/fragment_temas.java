@@ -1,8 +1,8 @@
 package com.draw_lessons.app.contenidos;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.RecyclerItemClickListener;
@@ -42,6 +41,8 @@ public class fragment_temas extends Fragment {
     private String descripcion_curso;
     private String img_curso;
     private View rootView;
+
+    private OnContenidoSeleccionadoListener listener;
 
     private TextView tv_nombre;
     private TextView tv_descripcion;
@@ -80,7 +81,14 @@ public class fragment_temas extends Fragment {
                     public void onItemClick(View view, int position) {
                         // do whatever
                         if(view.getId() == R.id.item_contenido){
-                            Toast.makeText(getActivity(),""+position, Toast.LENGTH_SHORT).show();
+                            position = position - sections.size();
+                            String nom = contenidos.get(position).getNombre_contenido();
+                            int duracion = contenidos.get(position).getDuracion_contenido();
+                            String url = contenidos.get(position).getEnlace_contenido();
+                            String texto = contenidos.get(position).getTexto_contenido();
+                            String img = contenidos.get(position).getImagen_contenido();
+                            String video = contenidos.get(position).getVideo_contenido();
+                            listener.onContenidoSeleccionado(nom, duracion, url, texto, img, video);
                         }
                     }
                 })
@@ -205,6 +213,18 @@ public class fragment_temas extends Fragment {
         }
     }
 
+    //Interfaz comunicación con el acticity
+    public interface OnContenidoSeleccionadoListener {
+        public void onContenidoSeleccionado(String nom, int duracion, String url, String texto, String img, String video);
+    }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            listener = (OnContenidoSeleccionadoListener) activity;
+        } catch (ClassCastException e) {
+        }
+    }
 
 }

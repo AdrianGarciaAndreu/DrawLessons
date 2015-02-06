@@ -24,7 +24,7 @@ import com.draw_lessons.app.canvas.activity_draw;
 import com.draw_lessons.app.canvas.cnvAdapter;
 import com.draw_lessons.app.menus.activity_homescreen;
 
-public class activity_contenidos extends ActionBarActivity implements fragment_cursos_pestana.OnCursoSeleccionadoListener {
+public class activity_contenidos extends ActionBarActivity implements fragment_cursos_pestana.OnCursoSeleccionadoListener, fragment_temas.OnContenidoSeleccionadoListener {
 
     DrawerLayout mDrawerLayout;
 
@@ -190,4 +190,12 @@ public class activity_contenidos extends ActionBarActivity implements fragment_c
     }
 
 
+    @Override
+    public void onContenidoSeleccionado(String nom, int duracion, String url, String texto, String img, String video) {
+        FragmentTransaction ft;
+        Fragment frag;
+        frag = new fragment_contenido().newInstance(nom, duracion, url, texto, img, video);
+        ft = getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+        ft.commit();
+    }
 }
