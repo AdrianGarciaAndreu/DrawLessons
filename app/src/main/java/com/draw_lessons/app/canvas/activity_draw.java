@@ -90,6 +90,7 @@ public class activity_draw extends ActionBarActivity {
                     public void onItemClick(View view, int position) {
                         // do whatever
                         switch (position) {
+
                             case 0:
                                 //Header no hacer nada
                                 break;
