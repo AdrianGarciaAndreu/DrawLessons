@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Path;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -28,6 +29,7 @@ import com.draw_lessons.app.contenidos.activity_contenidos;
 import com.draw_lessons.app.menus.activity_homescreen;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class activity_draw extends ActionBarActivity {
 
@@ -155,6 +157,12 @@ public class activity_draw extends ActionBarActivity {
             Intent i = this.getIntent();
                 this.opened =  i.getStringExtra("open");
                 this.filePath = i.getStringExtra("file");
+                boolean b = activity_homescreen.opening;
+
+        if (b==false){
+            this.opened = null;
+            this.filePath = null;
+        }
 
 
 
@@ -170,7 +178,8 @@ public class activity_draw extends ActionBarActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         this.et1.setLayoutParams(lp);
 
-
+        canvas.setTrazos(new ArrayList<Path>());
+        canvas.setErasersPaths(new ArrayList<Integer>());
 
     }
 

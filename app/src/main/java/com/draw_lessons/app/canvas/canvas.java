@@ -63,7 +63,9 @@ public class canvas extends View{
     public ArrayList<Path> Trazos = new ArrayList<Path>(); //Array para almacenar los pasos hechos en el dibujo
     private ArrayList<Integer> earserPaths = new ArrayList<Integer>(); //Almacena los paths hechos con le goma
 
-
+    public void setErasersPaths(ArrayList<Integer> e){
+        this.earserPaths = e;
+    }
     /*
      * Variables de la herrmaienta
      * Regla recta
@@ -1031,9 +1033,9 @@ public class canvas extends View{
         activity_draw.i1.setVisible(false);
         activity_draw.i2.setVisible(false);
 
-        if (this.openFile == null) {
+        if (this.openFile == null && this.bMutable == null) {
             this.cnv.drawColor(0xFFFFFFFF);
-        }else{
+        }else if (this.openFile != null && this.bMutable != null){
             this.bmp = this.bMutable.copy(Config.ARGB_4444, true);
             this.bmp = Bitmap.createScaledBitmap(this.bmp,this.resX,this.resY,true);
             this.cnv = new Canvas(this.bmp);
@@ -1071,7 +1073,7 @@ public class canvas extends View{
         this.cnv.drawColor(this.getResources().getColor(R.color.back_color));
         }
 
-        else if (this.openFile != null){
+        else if (this.openFile != null && this.bMutable != null){
 
             this.bmp = this.bMutable.copy(Config.ARGB_4444, true);
             this.bmp = Bitmap.createScaledBitmap(this.bmp,this.resX,this.resY,true);

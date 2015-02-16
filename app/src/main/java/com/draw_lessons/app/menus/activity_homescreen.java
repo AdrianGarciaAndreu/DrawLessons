@@ -90,8 +90,10 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
         switch (option) {
             case R.id.imageView_new:
                 activity_homescreen.opening=false;
-                i = new Intent(this, activity_draw.class);
+
+               i = new Intent(this, activity_draw.class);
                 i.putExtras(i_principal);
+                //i.putExtra("Nuevo", this.opening);
                 startActivity(i);
                 finish();
                 break;
