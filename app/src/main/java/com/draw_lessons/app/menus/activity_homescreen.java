@@ -35,12 +35,14 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
     CircleImageView img_user;
     TextView tv_nombre;
     TextView tv_email;
+    public static boolean opening;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_homescreen);
+
 
         bt_exit = (ImageButton) findViewById(R.id.imageView_exit);
         bt_new = (ImageButton) findViewById(R.id.imageView_new);
@@ -87,23 +89,25 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
         Intent i;
         switch (option) {
             case R.id.imageView_new:
+                activity_homescreen.opening=false;
                 i = new Intent(this, activity_draw.class);
                 i.putExtras(i_principal);
                 startActivity(i);
                 finish();
                 break;
             case R.id.imageView_open:
+                activity_homescreen.opening=true;
                 i = new Intent();
                 i.putExtras(i_principal);
-                //i.setType("image/*");
-               // i.setAction(Intent.ACTION_GET_CONTENT);
-               // startActivityForResult(Intent.createChooser(i, "Escoge imágen"), 1);
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+               startActivityForResult(Intent.createChooser(i, "Escoge imágen"), 1);
 
 
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                startActivityForResult(intent, 1);
+               // Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                //intent.addCategory(Intent.CATEGORY_OPENABLE);
+               // intent.setType("image/*");
+                startActivityForResult(i, 1);
 
                 break;
             case R.id.imageView_contents:
@@ -137,25 +141,17 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && this.opening==true) {
             Uri u = data.getData();
             Cursor cursor;
 
-            if (Build.VERSION.SDK_INT >= 19) {
-                 int takeFlags = data.getFlags()
-                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
-              getContentResolver().takePersistableUriPermission(u, takeFlags);
-            }
-
-            // Toast.makeText(this, u.toString(), Toast.LENGTH_LONG).show();
             Intent i = new Intent();
             String s = "open";
             i.putExtra("open", s);
             String path;
 
-            String[] proj = {MediaStore.Images.Media.};
+            String[] proj = {MediaStore.Images.Media.DATA};
             cursor = getContentResolver().query(u, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();

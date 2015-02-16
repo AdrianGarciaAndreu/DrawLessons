@@ -139,7 +139,7 @@ public class canvas extends View{
 
 
         this.cnv = new Canvas(this.bmp);
-        this.cnv.drawColor(this.getResources().getColor(R.color.back_color));
+
 
         if (this.opened !=null){
 
@@ -150,14 +150,21 @@ public class canvas extends View{
                     this.bMutable = BitmapFactory.decodeFile(s);
                     this.bMutable = this.bMutable.createScaledBitmap(this.bMutable,this.resX,this.resY,false);
                     this.bmp = this.bMutable.copy(Config.ARGB_4444, true);
-                    //this.bmp = Bitmap.createScaledBitmap(this.bmp,this.resX,this.resY,true);
-                    this.cnv.drawBitmap(this.bmp,0,0,this.p);
+                    this.bmp = Bitmap.createScaledBitmap(this.bmp,this.resX,this.resY,true);
 
-                    //this.cnv = new Canvas(this.bmp);
+                    //this.cnv.drawBitmap(this.bmp,0,0,this.p);
+                    this.cnv = new Canvas(this.bmp);
+
                     this.opened = null;
                 }
             }
+            this.cnv.drawColor(Color.TRANSPARENT);
+        } else {
+            this.cnv.drawColor(getResources().getColor(R.color.back_color));
         }
+
+        ///
+
 
         this.mPa = new Path();
         this.mPa.moveTo(0, 0);
@@ -180,6 +187,7 @@ public class canvas extends View{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         canvas.drawBitmap(this.bmp, 0, 0, this.p);
 
 
@@ -268,6 +276,9 @@ public class canvas extends View{
                             tmpCNV.drawLine(this.rulerX1, this.rulerY1, this.rulerX2, this.rulerY2, this.p);
                             tmpCNV.drawCircle(this.rulerX1, this.rulerY1, 50, tmpP);
 
+                            activity_draw.setX1(event.getX());
+                            activity_draw.setY1(event.getY());
+
                             this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,this.rulerX2,this.rulerY2);
                             activity_draw.distance.setTitle(String.valueOf(this.dist));
 
@@ -277,6 +288,9 @@ public class canvas extends View{
                             this.rulerY2 = event.getY();
                             tmpCNV.drawLine(this.rulerX1, this.rulerY1, this.rulerX2, this.rulerY2, this.p);
                             tmpCNV.drawCircle(this.rulerX2, this.rulerY2, 50, tmpP);
+
+                            activity_draw.setX2(event.getX());
+                            activity_draw.setY2(event.getY());
 
                             this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,event.getX(),event.getY());
                             activity_draw.distance.setTitle(String.valueOf(this.dist));
@@ -293,7 +307,7 @@ public class canvas extends View{
                         tmpCNV.drawCircle(this.rulerX2, this.rulerY2, 50, tmpP);
 
                         this.dist =(float)this.getDistance(this.rulerX1,this.rulerY1,this.rulerX2,this.rulerY2);
-                        activity_draw.distance.setTitle(String.valueOf(this.dist));
+                        activity_draw.distance.setTitle(String.valueOf(this.dist)+"dist");
 
                         this.invalidate();
 
@@ -921,11 +935,16 @@ public class canvas extends View{
         this.earserPaths = p.getList2();
         this.Circles = p.getList3();
 
+        if (this.openFile == null) {
+            this.bmp = Bitmap.createBitmap(this.resX, this.resY, Config.ARGB_4444);
+            this.cnv = new Canvas(this.bmp);
+            this.cnv.drawColor(this.getResources().getColor(R.color.back_color));
+        }else{
+            this.bmp = this.bMutable.copy(Config.ARGB_4444, true);
+            this.bmp = Bitmap.createScaledBitmap(this.bmp,this.resX,this.resY,true);
+            this.cnv = new Canvas(this.bmp);
 
-        this.bmp = Bitmap.createBitmap(this.resX, this.resY, Config.ARGB_4444);
-        this.cnv = new Canvas(this.bmp);
-        this.cnv.drawColor(this.getResources().getColor(R.color.back_color));
-
+        }
 
         this.p = new Paint();
         this.p.setStrokeWidth(this.brushSize);
@@ -1015,8 +1034,10 @@ public class canvas extends View{
         if (this.openFile == null) {
             this.cnv.drawColor(0xFFFFFFFF);
         }else{
-            this.bmp = this.bMutable.copy(Config.ARGB_4444,true);
+            this.bmp = this.bMutable.copy(Config.ARGB_4444, true);
+            this.bmp = Bitmap.createScaledBitmap(this.bmp,this.resX,this.resY,true);
             this.cnv = new Canvas(this.bmp);
+
         }
         this.Trazos = new ArrayList<Path>();
         this.invalidate();
@@ -1050,9 +1071,11 @@ public class canvas extends View{
         this.cnv.drawColor(this.getResources().getColor(R.color.back_color));
         }
 
-        else{
-          this.bmp = this.bMutable.copy(Config.ARGB_4444,true);
-        this.cnv = new Canvas(this.bmp);
+        else if (this.openFile != null){
+
+            this.bmp = this.bMutable.copy(Config.ARGB_4444, true);
+            this.bmp = Bitmap.createScaledBitmap(this.bmp,this.resX,this.resY,true);
+            this.cnv = new Canvas(this.bmp);
         }
 
         int c = (this.Trazos.size()-doBack)-1;

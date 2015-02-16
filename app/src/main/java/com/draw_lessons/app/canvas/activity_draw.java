@@ -249,7 +249,7 @@ public class activity_draw extends ActionBarActivity {
                 canvas.opened = "open";
                 File f = new File(this.filePath);
                 canvas.openFile = f;
-                Toast.makeText(this, f.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Imagen cargada", Toast.LENGTH_SHORT).show();
             }
         }
         int x = this.getWindowManager().getDefaultDisplay().getWidth(); //resolucion del ancho de la pantalla
@@ -599,6 +599,9 @@ public class activity_draw extends ActionBarActivity {
 			public void onClick(DialogInterface dialog, int which) {
 				Intent i_hs = new Intent(getBaseContext(), activity_homescreen.class);
 
+                opened = null;
+                filePath = null;
+
                 canvas.setOpened(false);
 
 				i_hs.putExtras(intent_principal);
@@ -611,6 +614,8 @@ public class activity_draw extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SaveBMP(false);
+                opened = null;
+                filePath = null;
             }
         });
 
