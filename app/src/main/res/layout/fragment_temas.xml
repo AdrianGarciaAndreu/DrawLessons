@@ -19,7 +19,8 @@
             android:scaleType="fitXY"
             android:layout_margin="10dp"
             android:elevation="12dp"
-            android:layout_weight="30" />
+            android:layout_weight="30"
+            android:layout_gravity="center_horizontal" />
 
         <LinearLayout
             android:orientation="vertical"

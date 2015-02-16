@@ -17,7 +17,8 @@
         android:textSize="25sp"
         android:background="@color/cardview_light_background"
         android:elevation="5dp"
-        android:paddingLeft="16dp"/>
+        android:paddingLeft="16dp"
+        android:layout_margin="5dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -27,6 +28,9 @@
         android:layout_weight="70"
         android:textSize="25sp"
         android:gravity="center"
-        android:elevation="5dp"/>
+        android:elevation="5dp"
+        android:layout_margin="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/primary" />
 
 </LinearLayout>
