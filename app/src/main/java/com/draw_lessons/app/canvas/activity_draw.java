@@ -387,6 +387,11 @@ public class activity_draw extends ActionBarActivity {
         activity_draw.y2.setTitle("0.00, y2");
         activity_draw.y2.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
+        x1.setVisible(false);
+        x2.setVisible(false);
+        y1.setVisible(false);
+        y2.setVisible(false);
+
 
         //Distancia del ultimo Objeto despues de ser usado
         activity_draw.distance = menu.add(0, 10, menu.NONE, "Distancia/Radio");
@@ -394,6 +399,8 @@ public class activity_draw extends ActionBarActivity {
         activity_draw.distance.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add(0, 11, menu.NONE, R.string.space).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        distance.setVisible(false);
 
 
         this.items[0] = menu.add(0, 0, menu.NONE, R.string.hand_made);
@@ -628,7 +635,7 @@ public class activity_draw extends ActionBarActivity {
             }
         });
 
-        b.setIcon(this.getResources().getDrawable(R.drawable.ic_cancel));
+       // b.setIcon(this.getResources().getDrawable(R.drawable.ic_cancel));
         AlertDialog a = b.create();
         a.show();
 

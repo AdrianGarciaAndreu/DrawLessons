@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.draw_lessons.app.R;
 import com.draw_lessons.app.canvas.activity_draw;
@@ -144,31 +145,41 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK && this.opening==true) {
-            Uri u = data.getData();
-            Cursor cursor;
+
+            try {
+                Uri u = data.getData();
+                Cursor cursor;
 
 
-            Intent i = new Intent();
-            String s = "open";
-            i.putExtra("open", s);
-            String path;
+                Intent i = new Intent();
+                String s = "open";
+                i.putExtra("open", s);
+                String path;
 
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = getContentResolver().query(u, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            path = cursor.getString(column_index);
-            cursor.close();
+                String[] proj = {MediaStore.Images.Media.DATA};
+                cursor = getContentResolver().query(u, proj, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                path = cursor.getString(column_index);
+                cursor.close();
 
-            String[] a = path.split("t");
+                String[] a = path.split("t");
 
-            i.putExtra("file", path);
-            i.setClass(activity_homescreen.this, activity_draw.class);
-            i.putExtras(getIntent());
-            startActivity(i);
+                i.putExtra("file", path);
+                i.setClass(activity_homescreen.this, activity_draw.class);
+                i.putExtras(getIntent());
+                startActivity(i);
 
 
-            finish();
+                finish();
+            } catch(Exception ex){
+
+                Intent i = new Intent();
+                i.setClass(activity_homescreen.this, activity_draw.class);
+                startActivity(i);
+
+                Toast.makeText(this,"Imagen no soportada,lo sentimos", Toast.LENGTH_SHORT).show();
+            }
 
 
         }
