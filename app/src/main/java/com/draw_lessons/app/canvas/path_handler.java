@@ -18,6 +18,7 @@ public class path_handler {
     private static path_handler handler;
     private ArrayList<Path> list;
     private ArrayList<Integer> list2;
+    private ArrayList<circle> list3;
 
     private path_handler() {
     }
@@ -47,6 +48,8 @@ public class path_handler {
         return this.list2;
     }
 
+    public ArrayList<circle> getList3() { return this.list3; }
+
     /**
      * Establece una lista de Objetos
      *
@@ -57,7 +60,11 @@ public class path_handler {
     }
 
     public void setList2(ArrayList<Integer> list) {
-
         this.list2 = list;
     }
+
+    public void setList3(ArrayList<circle> list){
+        this.list3 = list;
+    }
+
 }

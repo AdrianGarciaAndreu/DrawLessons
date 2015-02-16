@@ -598,6 +598,9 @@ public class activity_draw extends ActionBarActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Intent i_hs = new Intent(getBaseContext(), activity_homescreen.class);
+
+                canvas.setOpened(false);
+
 				i_hs.putExtras(intent_principal);
 				startActivity(i_hs);
 				finish();

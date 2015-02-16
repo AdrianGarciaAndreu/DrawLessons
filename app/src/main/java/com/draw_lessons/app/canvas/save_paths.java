@@ -21,6 +21,7 @@ public class save_paths {
     private static save_paths handler;
     private ArrayList<Path> list;
     private ArrayList<Integer> list2;
+    private ArrayList<circle> list3;
 
     private save_paths() {
     }
@@ -50,6 +51,9 @@ public class save_paths {
         return this.list2;
     }
 
+    public ArrayList<circle> getList3() {
+        return this.list3;
+    }
 
     /**
      * Lista de Trazos de todas las herramientas
@@ -69,5 +73,11 @@ public class save_paths {
         this.list2 = list;
     }
 
+
+    public void setListC(ArrayList<circle> list) {
+
+        this.list3 = list;
+
+    }
 
 }

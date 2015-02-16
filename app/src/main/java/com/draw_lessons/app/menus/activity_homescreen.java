@@ -3,6 +3,7 @@ package com.draw_lessons.app.menus;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -94,9 +95,16 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
             case R.id.imageView_open:
                 i = new Intent();
                 i.putExtras(i_principal);
-                i.setType("image/*");
-                i.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(i, "Escoge imágen"), 1);
+                //i.setType("image/*");
+               // i.setAction(Intent.ACTION_GET_CONTENT);
+               // startActivityForResult(Intent.createChooser(i, "Escoge imágen"), 1);
+
+
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+                startActivityForResult(intent, 1);
+
                 break;
             case R.id.imageView_contents:
                 i = new Intent(this, activity_contenidos.class);
@@ -131,7 +139,15 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
 
         if (resultCode == RESULT_OK) {
             Uri u = data.getData();
+            Cursor cursor;
 
+            if (Build.VERSION.SDK_INT >= 19) {
+                 int takeFlags = data.getFlags()
+                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+              getContentResolver().takePersistableUriPermission(u, takeFlags);
+            }
 
             // Toast.makeText(this, u.toString(), Toast.LENGTH_LONG).show();
             Intent i = new Intent();
@@ -139,8 +155,8 @@ public class activity_homescreen extends ActionBarActivity implements View.OnCli
             i.putExtra("open", s);
             String path;
 
-            String[] proj = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(u, proj, null, null, null);
+            String[] proj = {MediaStore.Images.Media.};
+            cursor = getContentResolver().query(u, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             path = cursor.getString(column_index);

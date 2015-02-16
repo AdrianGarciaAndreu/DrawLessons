@@ -151,7 +151,9 @@ public class canvas extends View{
                     this.bMutable = this.bMutable.createScaledBitmap(this.bMutable,this.resX,this.resY,false);
                     this.bmp = this.bMutable.copy(Config.ARGB_4444, true);
                     //this.bmp = Bitmap.createScaledBitmap(this.bmp,this.resX,this.resY,true);
-                    this.cnv = new Canvas(this.bmp);
+                    this.cnv.drawBitmap(this.bmp,0,0,this.p);
+
+                    //this.cnv = new Canvas(this.bmp);
                     this.opened = null;
                 }
             }
@@ -905,6 +907,7 @@ public class canvas extends View{
         save_paths p = save_paths.getInstance();
         p.setList(this.Trazos);
         p.setListB(this.earserPaths);
+        p.setListC(this.Circles);
     }
 
 
@@ -916,6 +919,7 @@ public class canvas extends View{
         save_paths p = save_paths.getInstance();
         this.Trazos = p.getList();
         this.earserPaths = p.getList2();
+        this.Circles = p.getList3();
 
 
         this.bmp = Bitmap.createBitmap(this.resX, this.resY, Config.ARGB_4444);
@@ -937,6 +941,50 @@ public class canvas extends View{
                 this.p.setStrokeWidth(this.SIZE_MAX);
                 this.cnv.drawPath(this.Trazos.get(i),this.p);
             }
+
+            else if (this.isDoneWithCircle(pa)){
+
+                int i2 = 0;
+                int pos = 0;
+                while(i<this.Circles.size()){
+                    if(this.Circles.get(i).getPath().hashCode() == p.hashCode() ){
+                        pos = i2;
+                        break;
+                    }
+                    i2++;
+                }
+
+                circle cir = this.Circles.get(pos);
+
+                Paint tmpP2 = new Paint();
+                tmpP2.setColor(Color.TRANSPARENT);
+
+                this.p.setStrokeWidth(30);
+                tmpP2.setStyle(Paint.Style.STROKE);
+                ePa.addCircle(cir.getX1(),cir.getY1(),cir.getR(),Direction.CCW);
+                this.cnv.drawPath(ePa, tmpP2);
+
+                tmpP2.setStyle(Paint.Style.FILL);
+                iPa.addCircle(cir.getX1(),cir.getY1(),(cir.getR()-SIZE_SMALL),Direction.CCW);
+                this.cnv.drawPath(iPa, tmpP2);
+
+                this.cnv.clipPath(ePa, Region.Op.REPLACE);
+                this.cnv.clipPath(iPa, Region.Op.DIFFERENCE);
+
+                this.cnv.drawPath(pa,this.p);
+                //Bitmap
+                this.invalidate();
+
+                this.ePa = new Path();
+                this.iPa = new Path();
+                this.cnv = new Canvas(this.bmp);
+                this.p.setStrokeWidth(SIZE_SMALL);
+                this.invalidate();
+
+
+            }
+
+
             else {
                 this.p.setColor(this.getResources().getColor(R.color.stroke_color));
                 this.p.setStrokeWidth(this.SIZE_SMALL);
